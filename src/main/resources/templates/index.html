@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://thymeleaf.org">
+
+<head th:replace="fragment/head::head"></head>
+
+<body>
+<!-- Navigation -->
+<nav th:replace="fragment/nav::nav(nav=${nav})"></nav>
+
+<!-- Page Header -->
+<header th:replace="fragment/header::header(header=${header})"></header>
+
+<!-- Main Content -->
+<div class="container">
+  <div class="row" id="react">
+      <div class="col-lg-8 col-md-10 mx-auto">
+          <div class="post-preview">
+              <a href="post.html">
+                  <h2 class="post-title">
+                      Man must explore, and this is exploration at its greatest
+                  </h2>
+                  <h3 class="post-subtitle">
+                      Problems look mighty small from 150 miles up
+                  </h3>
+              </a>
+              <p class="post-meta">Posted by
+                  <a href="#">Start Bootstrap</a>
+                  on September 24, 2018</p>
+          </div>
+          <hr>
+      </div>
+  </div>
+  </div>
+</div>
+
+<hr>
+
+<!-- Footer -->
+<footer th:replace="fragment/footer::footer">
+</footer>
+
+</body>
+
+</html>
