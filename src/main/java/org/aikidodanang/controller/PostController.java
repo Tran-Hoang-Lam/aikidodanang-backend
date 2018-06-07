@@ -29,7 +29,12 @@ public class PostController {
                                   @PathVariable(value = "link", required = false) String link,
                                   Model model) {
         Nav nav = navService.findByPage(page);
-        NavItem navItem = navService.findByPageAndLinkOrDefaultPost(page, defaultPost == null ? link : defaultPost);
+        NavItem navItem;
+        if (page.equals("article")) {
+            navItem = navService.findByPageAndLinkOrDefaultPost(page, page);
+        } else {
+            navItem = navService.findByPageAndLinkOrDefaultPost(page, defaultPost == null ? link : defaultPost);
+        }
         Post post = postService.findByTitle(defaultPost == null ? navItem.getDefaultPost() : defaultPost);
 
         model.addAttribute("header", generateHeader(navItem, post));
