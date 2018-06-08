@@ -24,4 +24,6 @@ public class Post {
     private String heading;
     @Field("subHeading")
     private String subHeading;
+    @Field("article")
+    private boolean article;
 }

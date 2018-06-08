@@ -15,20 +15,20 @@
 <div class="container">
   <div class="row" id="react">
       <div class="col-lg-8 col-md-10 mx-auto">
-          <div class="post-preview">
-              <a href="post.html">
-                  <h2 class="post-title">
-                      Man must explore, and this is exploration at its greatest
-                  </h2>
-                  <h3 class="post-subtitle">
-                      Problems look mighty small from 150 miles up
-                  </h3>
-              </a>
-              <p class="post-meta">Posted by
-                  <a href="#">Start Bootstrap</a>
-                  on September 24, 2018</p>
-          </div>
-          <hr>
+          <th:block th:each="post : ${posts}">
+              <div class="post-preview">
+                  <a th:href="@{/page/article/{title}(title=${post.title})}">
+                      <h2 class="post-title" th:text="${post.heading}">
+                          Man must explore, and this is exploration at its greatest
+                      </h2>
+                      <h3 class="post-subtitle" th:text="${post.subHeading}">
+                          Problems look mighty small from 150 miles up
+                      </h3>
+                  </a>
+                  <p class="post-meta" th:text="'Posted by ' + ${post.userName}">Posted by Admin</p>
+              </div>
+              <hr>
+          </th:block>
       </div>
   </div>
   </div>

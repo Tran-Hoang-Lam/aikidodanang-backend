@@ -5,6 +5,8 @@ import org.aikidodanang.repository.PostRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 @Transactional
 public class PostServiceImpl implements PostService {
@@ -17,5 +19,10 @@ public class PostServiceImpl implements PostService {
     @Override
     public Post findByTitle(String title) {
         return postRepository.findByTitle(title);
+    }
+
+    @Override
+    public List<Post> findByArticle(boolean isArticle) {
+        return postRepository.findByArticle(isArticle);
     }
 }
