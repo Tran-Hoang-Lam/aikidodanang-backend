@@ -29,12 +29,16 @@ tasks.withType(JavaCompile) {
 repositories {
     mavenCentral()
 }
+
+configurations {
+    compile.exclude module: 'spring-boot-starter-tomcat'
+    compile.exclude group: 'org.apache.tomcat'
+}
+
 dependencies {
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-data-mongodb', version:'2.0.2.RELEASE'
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-data-rest', version:'2.0.2.RELEASE'
-    compile(group: 'org.springframework.boot', name: 'spring-boot-starter-web', version:'2.0.2.RELEASE') {
-        exclude(module: 'spring-boot-starter-tomcat')
-    }
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-web', version:'2.0.2.RELEASE'
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-jetty', version:'2.0.2.RELEASE'
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-thymeleaf', version:'2.0.2.RELEASE'
     compile group: 'org.projectlombok', name: 'lombok', version:'1.16.20'

@@ -1,4 +1,5 @@
 FROM openjdk:8-jdk
-COPY target/aikidodanang-0.0.1-SNAPSHOT.jar /app.jar
+COPY build/libs/aikidodanang-0.0.1-SNAPSHOT.jar /app.jar
 EXPOSE 8080/tcp
-ENTRYPOINT ["java", "-jar", "/app.jar"]
+ENV springProfile=dev
+ENTRYPOINT ["java", "-jar","-Dspring.profiles.active=${springProfile}" , "/app.jar"]
