@@ -23,6 +23,6 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public List<Post> findByArticle(boolean isArticle) {
-        return postRepository.findByArticle(isArticle);
+        return postRepository.findByArticleOrderByCreateDateDesc(isArticle);
     }
 }

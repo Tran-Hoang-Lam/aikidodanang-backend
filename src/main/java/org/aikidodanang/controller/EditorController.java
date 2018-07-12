@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.text.Normalizer;
+import java.time.LocalDateTime;
 
 @Controller
 @RequestMapping("edit")
@@ -35,6 +36,7 @@ public class EditorController {
                              @RequestParam(value = "process") String process,
                              Model model){
         String realContent = pegDownProcessor.markdownToHtml(content)
+                .replaceAll("<table>", "<table class='table'>")
                 .replaceAll("  ", " ")
                 .replaceAll("\n","");
 
@@ -51,6 +53,7 @@ public class EditorController {
                 .subHeading(subheading)
                 .title(title)
                 .userName("Admin")
+                .createDate(LocalDateTime.now())
                 .build();
 
         if (process.equals("Save")) {

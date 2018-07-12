@@ -10,5 +10,5 @@ import java.util.List;
 public interface PostRepository extends MongoRepository<Post, String>{
     Post findByTitle(String title);
 
-    List<Post> findByArticle(boolean isArticle);
+    List<Post> findByArticleOrderByCreateDateDesc(boolean isArticle);
 }

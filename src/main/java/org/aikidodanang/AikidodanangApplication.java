@@ -1,5 +1,6 @@
 package org.aikidodanang;
 
+import org.pegdown.Extensions;
 import org.pegdown.PegDownProcessor;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -14,6 +15,6 @@ public class AikidodanangApplication {
 
 	@Bean
     public PegDownProcessor pegDownProcessor(){
-	    return new PegDownProcessor();
+		return new PegDownProcessor(Extensions.ALL);
     }
 }
