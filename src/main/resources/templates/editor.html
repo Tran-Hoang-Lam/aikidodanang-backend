@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://thymeleaf.org">
+
+<head th:replace="fragment/head::head"></head>
+
+<body>
+
+<!-- Main Content -->
+<div class="container">
+  <div class="row" id="react">
+      <div class="col-lg-8 col-md-10 mx-auto" th:if="${previewContent != null}" th:utext="${previewContent}"></div>
+      <div class="col-lg-8 col-md-10 mx-auto">
+          <h2>Submit post</h2>
+          <form method="post" th:action="@{/edit}">
+              <div class="form-group">
+                  <label for="heading">Heading</label>
+                  <input type="text" class="form-control" id="heading" name="heading" th:value="${heading}"/>
+              </div>
+              <div class="form-group">
+                  <label for="subheading">Sub Heading</label>
+                  <input type="text" id="subheading" class="form-control" name="subheading" th:value="${subheading}"/>
+              </div>
+              <div class="form-group">
+                  <label for="content">Content</label>
+                  <textarea name="content" id="content" cols="30" rows="50" class="form-control" th:text="${content}"></textarea>
+              </div>
+              <p th:text="${result}"></p>
+              <input type="submit" value="Save" name="process" class="btn btn-primary"/>
+              <input type="submit" value="Preview" name="process" class="btn btn-primary"/>
+          </form>
+      </div>
+  </div>
+  </div>
+</div>
+
+<hr>
+
+<!-- Footer -->
+<footer th:replace="fragment/footer::footer">
+</footer>
+
+</body>
+
+</html>

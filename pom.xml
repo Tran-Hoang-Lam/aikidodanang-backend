@@ -56,7 +56,6 @@
             <groupId>org.pegdown</groupId>
             <artifactId>pegdown</artifactId>
             <version>1.6.0</version>
-            <scope>test</scope>
         </dependency>
 
         <dependency>
