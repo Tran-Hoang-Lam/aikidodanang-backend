@@ -3,6 +3,7 @@ package org.aikidodanang.controller;
 import org.aikidodanang.model.Post;
 import org.aikidodanang.repository.PostRepository;
 import org.pegdown.PegDownProcessor;
+import org.pegdown.ast.Node;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,21 +25,20 @@ public class EditorController {
         this.postRepository = postRepository;
     }
 
-    @GetMapping
+    @GetMapping("/post")
     public String redirectEditor(){
-        return "editor";
+        return "editPost";
     }
 
-    @PostMapping
+    @PostMapping("/post")
     public String getContent(@RequestParam(value = "heading") String heading,
                              @RequestParam(value = "subheading") String subheading,
                              @RequestParam(value = "content") String content,
                              @RequestParam(value = "process") String process,
+                             @RequestParam(value = "article") String article,
                              Model model){
         String realContent = pegDownProcessor.markdownToHtml(content)
-                .replaceAll("<table>", "<table class='table'>")
-                .replaceAll("  ", " ")
-                .replaceAll("\n","");
+                .replaceAll("<table>", "<table class='table'>");
 
         String title = Normalizer.normalize(heading, Normalizer.Form.NFD)
                 .replaceAll("\\p{InCombiningDiacriticalMarks}+", "");
@@ -47,7 +47,7 @@ public class EditorController {
         title = title.replaceAll("\\s+", "-");
 
         Post savePost = Post.builder()
-                .article(false)
+                .article(!article.equals("no"))
                 .content(realContent)
                 .heading(heading)
                 .subHeading(subheading)
@@ -71,6 +71,6 @@ public class EditorController {
             model.addAttribute("result", "");
         }
 
-        return "editor";
+        return "editPost";
     }
 }

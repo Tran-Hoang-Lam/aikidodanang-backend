@@ -21,11 +21,10 @@ public class NavServiceImpl implements NavService {
     }
 
     @Override
-    public NavItem findByPageAndLinkOrDefaultPost(String page, String linkOrDefaultPost) {
-        Nav nav = findByPage(page);
+    public NavItem findByPageAndLinkOrDefaultPost(Nav nav, String linkOrDefaultPost) {
         NavItem navItem = nav.getNavItem()
                 .stream()
-                .filter(item -> item.getLink().equals(linkOrDefaultPost) || item.getDefaultPost().equals(linkOrDefaultPost))
+                .filter(item -> item.getDefaultPost().equals(linkOrDefaultPost))
                 .findFirst()
                 .orElse(NavItem.DEFAULT_NAV_ITEM);
         return navItem;

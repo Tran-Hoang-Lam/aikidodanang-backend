@@ -5,5 +5,5 @@ import org.aikidodanang.model.NavItem;
 
 public interface NavService {
     Nav findByPage(String page);
-    NavItem findByPageAndLinkOrDefaultPost(String page, String link);
+    NavItem findByPageAndLinkOrDefaultPost(Nav nav, String link);
 }

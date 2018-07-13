@@ -23,18 +23,12 @@ public class PostController {
         this.navService = navService;
     }
 
-    @GetMapping({"/{page}/{link}/{defaultPost}", "/{page}/{defaultPost}"})
+    @GetMapping({"/{page}/{defaultPost}"})
     public String getPostWithPage(@PathVariable(value = "page") String page,
                                   @PathVariable(value = "defaultPost", required = false) String defaultPost,
-                                  @PathVariable(value = "link", required = false) String link,
                                   Model model) {
         Nav nav = navService.findByPage(page);
-        NavItem navItem;
-        if (page.equals("article")) {
-            navItem = navService.findByPageAndLinkOrDefaultPost(page, page);
-        } else {
-            navItem = navService.findByPageAndLinkOrDefaultPost(page, defaultPost == null ? link : defaultPost);
-        }
+        NavItem navItem = navService.findByPageAndLinkOrDefaultPost(nav, defaultPost);
         Post post = postService.findByTitle(defaultPost == null ? navItem.getDefaultPost() : defaultPost);
 
         model.addAttribute("header", generateHeader(navItem, post));
