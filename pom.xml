@@ -89,5 +89,13 @@
         </plugins>
     </build>
 
+    <repositories>
+        <repository>
+            <id>springPlugin</id>
+            <name>remark</name>
+            <url>http://repo.spring.io/plugins-release/</url>
+        </repository>
+    </repositories>
+
 
 </project>
