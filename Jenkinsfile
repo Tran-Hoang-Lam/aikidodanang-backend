@@ -13,9 +13,8 @@ pipeline {
         }
 
         stage('Build and push docker image') {
-            steps {
-                docker.build('lamth2/aikidodanang-backend:jenkins').push()
-            }
+            checkout scm
+            docker.build('lamth2/aikidodanang-backend:jenkins').push()
         }
     }
 }
