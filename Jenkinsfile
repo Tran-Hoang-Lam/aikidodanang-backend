@@ -11,14 +11,19 @@ pipeline {
                 sh 'mvn clean package'
             }
         }
+
+        def image;
+
         stage('Build docker image') {
+            agent { dockerfile true }
             steps {
-                sh 'docker build -t lamth2/aikidodanang-backend:jenkins .'
+                image = docker.build('lamth2/aikidodanang-backend:jenkins')
             }
         }
         stage('Publish images') {
+            agent { dockerfile true }
             steps {
-                sh 'docker push lamth2/aikidodanang-backend:jenkins'
+                image.push()
             }
         }
     }
