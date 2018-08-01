@@ -7,7 +7,7 @@ node {
     stage('Build source') {
         withMaven(
             maven: 'maven',
-            mavenSettingsConfig: 'settings',
+            mavenSettingsConfig: '62b6e57c-374a-466d-8b38-399b111d4c5f',
             mavenLocalRepo: '.repository'
         ) {
             sh 'mvn clean package'
