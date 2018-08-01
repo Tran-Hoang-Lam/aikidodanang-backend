@@ -12,18 +12,10 @@ pipeline {
             }
         }
 
-        def image;
-
-        stage('Build docker image') {
+        stage('Build and push docker image') {
             agent { dockerfile true }
             steps {
-                image = docker.build('lamth2/aikidodanang-backend:jenkins')
-            }
-        }
-        stage('Publish images') {
-            agent { dockerfile true }
-            steps {
-                image.push()
+                docker.build('lamth2/aikidodanang-backend:jenkins').push()
             }
         }
     }
