@@ -5,7 +5,9 @@ node {
     }
 
     stage('Build source') {
-        docker.image('maven:3-alpine').withRun('-v /root/.m2:/root/.m2') { c ->
+        withMaven(
+            maven: 'M3'
+        ) {
             sh 'mvn clean package'
         }
     }
