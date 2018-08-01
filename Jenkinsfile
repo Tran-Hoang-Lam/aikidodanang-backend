@@ -1,22 +1,22 @@
-pipeline {
-    agent {
-        docker {
-            image 'maven:3-alpine'
-            args '-v /root/.m2:/root/.m2'
+node {
+    def image
+    stage('Clone') {
+        checkout scm
+    }
+
+    stage('Build source') {
+        docker.image('maven:3-alpine').withRun('-v /root/.m2:/root/.m2') {
+            sh 'mvn clean package'
         }
     }
-    stages {
-        stage('Build source') {
-            steps {
-                sh 'mvn clean package'
-            }
-        }
 
-        stage('Build and push docker image') {
-            steps {
-                checkout scm
-                docker.build('lamth2/aikidodanang-backend:jenkins').push()
-            }
+    stage('Build docker image') {
+        image = docker.build('lamth2/aikidodanang-backend:jenkins')
+    }
+
+    stage('Push image') {
+        docker.withRegistry('https://registry.hub.docker.com', 'docker-hub-credentials') {
+            image.push()
         }
     }
 }
