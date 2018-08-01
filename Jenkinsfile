@@ -13,7 +13,6 @@ pipeline {
         }
 
         stage('Build and push docker image') {
-            agent { dockerfile true }
             steps {
                 docker.build('lamth2/aikidodanang-backend:jenkins').push()
             }
