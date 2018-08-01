@@ -6,9 +6,19 @@ pipeline {
         }
     }
     stages {
-        stage('Build') {
+        stage('Build source') {
             steps {
-                sh 'mvn -B -DskipTests clean package'
+                sh 'mvn clean package'
+            }
+        }
+        stage('Build docker image') {
+            steps {
+                sh 'docker build -t lamth2/aikidodanang-backend:jenkins .'
+            }
+        }
+        stage('Publish images') {
+            steps {
+                sh 'docker push lamth2/aikidodanang-backend:jenkins'
             }
         }
     }
