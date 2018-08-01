@@ -3,7 +3,7 @@ package org.aikidodanang.controller;
 import org.aikidodanang.model.Post;
 import org.aikidodanang.repository.PostRepository;
 import org.pegdown.PegDownProcessor;
-import org.pegdown.ast.Node;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,11 +26,13 @@ public class EditorController {
     }
 
     @GetMapping("/post")
+    @PreAuthorize("hasRole('ADMIN')")
     public String redirectEditor(){
         return "editPost";
     }
 
     @PostMapping("/post")
+    @PreAuthorize("hasRole('ADMIN')")
     public String getContent(@RequestParam(value = "heading") String heading,
                              @RequestParam(value = "subheading") String subheading,
                              @RequestParam(value = "content") String content,
