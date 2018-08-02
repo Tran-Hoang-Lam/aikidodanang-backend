@@ -1,13 +1,10 @@
 package org.aikidodanang.controller;
 
-import org.aikidodanang.model.Album;
 import org.aikidodanang.model.Post;
-import org.aikidodanang.repository.AlbumRepository;
 import org.aikidodanang.repository.PostRepository;
-import org.aikidodanang.utils.CloudinaryUtil;
-import org.apache.commons.lang.RandomStringUtils;
-import org.parboiled.common.FileUtils;
 import org.pegdown.PegDownProcessor;
+import org.springframework.messaging.MessageChannel;
+import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,12 +14,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
-import java.io.IOException;
 import java.text.Normalizer;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 @Controller
 @RequestMapping("edit")
@@ -30,17 +25,14 @@ import java.util.List;
 public class EditorController {
     private final PegDownProcessor pegDownProcessor;
     private final PostRepository postRepository;
-    private final CloudinaryUtil cloudinaryUtil;
-    private final AlbumRepository albumRepository;
+    private final MessageChannel createAlbumChannel;
 
     public EditorController(PegDownProcessor pegDownProcessor,
                             PostRepository postRepository,
-                            CloudinaryUtil cloudinaryUtil,
-                            AlbumRepository albumRepository) {
+                            MessageChannel createAlbumChannel) {
         this.pegDownProcessor = pegDownProcessor;
         this.postRepository = postRepository;
-        this.cloudinaryUtil = cloudinaryUtil;
-        this.albumRepository = albumRepository;
+        this.createAlbumChannel = createAlbumChannel;
     }
 
     @GetMapping("/post")
@@ -102,29 +94,13 @@ public class EditorController {
     public String createAlbum(@RequestParam("name") String name,
                               @RequestParam("images") MultipartFile[] images,
                               Model model) {
-        List<String> urls = new ArrayList<>();
-        for (MultipartFile image : images) {
-            File imageFile = new File(RandomStringUtils.random(10));
-            try {
-                imageFile.createNewFile();
-                FileUtils.writeAllBytes(image.getBytes(), imageFile);
-                image.transferTo(imageFile);
-                urls.add(cloudinaryUtil.uploadImage(imageFile));
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            } finally {
-                imageFile.delete();
-            }
-        }
+        Map<String, Object> data = new HashMap<>();
+        data.put("albumName", name);
+        data.put("albumImages", images);
 
-        Album album = Album.builder().name(name).urls(urls).build();
-        albumRepository.save(album);
+        createAlbumChannel.send(MessageBuilder.withPayload(data).build());
 
-        if (album.getId() != null && !album.getId().isEmpty()) {
-            model.addAttribute("result", "Success");
-        } else {
-            model.addAttribute("result", "Failed!!! Try again");
-        }
+        model.addAttribute("result", "Creating your album!!! Check album screen after 5 minutes");
 
         return "editAlbum";
     }
