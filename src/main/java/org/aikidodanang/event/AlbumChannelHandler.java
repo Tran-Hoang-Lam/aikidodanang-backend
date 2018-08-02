@@ -56,5 +56,7 @@ public class AlbumChannelHandler {
 
         Album album = Album.builder().name(name).urls(urls).build();
         albumRepository.save(album);
+
+        log.info("Finish!!!");
     }
 }
