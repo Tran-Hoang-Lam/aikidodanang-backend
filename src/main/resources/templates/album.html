@@ -17,10 +17,11 @@
         <div class="col-lg-8 col-md-10 mx-auto">
             <th:block th:each="album : ${albums}">
                 <h2 th:text="${album.name}"></h2>
-                <div th:id="${album.name}" class="carousel slide" data-ride="carousel" style="width: 100%">
+                <div th:id="${album.id}" class="carousel slide" data-ride="carousel" style="width: 100%">
                     <!-- Indicators -->
                     <ul class="carousel-indicators">
-                        <li th:attr="data-target=${'#' + album.name}" th:each="url : ${album.urls}" data-slide-to="0"
+                        <li th:attr="data-target=${'#' + album.id}" th:each="url : ${album.urls}"
+                            th:attrappend="data-slide-to=${urlStat.index}"
                             th:class="${urlStat.index} == 0 ? 'active' : ''"></li>
                     </ul>
 
@@ -33,10 +34,10 @@
                     </div>
 
                     <!-- Left and right controls -->
-                    <a class="carousel-control-prev" th:href="'#' + ${album.name}" data-slide="prev">
+                    <a class="carousel-control-prev" th:href="'#' + ${album.id}" data-slide="prev">
                         <span class="carousel-control-prev-icon"></span>
                     </a>
-                    <a class="carousel-control-next" th:href="'#' + ${album.name}" data-slide="next">
+                    <a class="carousel-control-next" th:href="'#' + ${album.id}" data-slide="next">
                         <span class="carousel-control-next-icon"></span>
                     </a>
                 </div>

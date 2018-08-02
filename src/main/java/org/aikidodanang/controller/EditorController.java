@@ -102,6 +102,6 @@ public class EditorController {
 
         model.addAttribute("result", "Creating your album!!! Check album screen after 5 minutes");
 
-        return "editAlbum";
+        return "redirect:/edit/album?action=add";
     }
 }
