@@ -7,7 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-@Service
+@Service("postService")
 @Transactional
 public class PostServiceImpl implements PostService {
     private final PostRepository postRepository;

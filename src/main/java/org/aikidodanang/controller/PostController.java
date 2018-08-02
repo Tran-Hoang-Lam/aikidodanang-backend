@@ -1,9 +1,9 @@
 package org.aikidodanang.controller;
 
-import org.aikidodanang.model.Header;
 import org.aikidodanang.model.Nav;
 import org.aikidodanang.model.NavItem;
 import org.aikidodanang.model.Post;
+import org.aikidodanang.service.AlbumService;
 import org.aikidodanang.service.NavService;
 import org.aikidodanang.service.PostService;
 import org.springframework.stereotype.Controller;
@@ -14,13 +14,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @RequestMapping("/page")
-public class PostController {
+public class PostController extends BaseController {
     private final PostService postService;
     private final NavService navService;
+    private final AlbumService albumService;
 
-    public PostController(PostService postService, NavService navService) {
+    public PostController(PostService postService, NavService navService, AlbumService albumService) {
         this.postService = postService;
         this.navService = navService;
+        this.albumService = albumService;
     }
 
     @GetMapping({"/{page}/{defaultPost}"})
@@ -31,21 +33,13 @@ public class PostController {
         NavItem navItem = navService.findByPageAndLinkOrDefaultPost(nav, defaultPost);
         Post post = postService.findByTitle(defaultPost == null ? navItem.getDefaultPost() : defaultPost);
 
-        model.addAttribute("header", generateHeader(navItem, post));
-        model.addAttribute("nav", nav);
-        model.addAttribute("post", post);
+        handleModelForPostPage(model, nav, navItem, post);
+
+        if (page.equals("album")) {
+            model.addAttribute("albums", albumService.findAll());
+            return "album";
+        }
 
         return "post";
-    }
-
-    private Header generateHeader(NavItem navItem, Post post) {
-        Header header = new Header();
-        header.setImage(navItem.getImage());
-        header.setClassHeading("site-heading");
-        header.setHeading(post.getHeading());
-        header.setSubHeading(post.getSubHeading());
-        header.setMeta("Posted by " + post.getUserName());
-
-        return header;
     }
 }
