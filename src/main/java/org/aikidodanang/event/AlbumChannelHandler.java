@@ -40,7 +40,7 @@ public class AlbumChannelHandler {
         log.info("Total image " + images.length);
         List<String> urls = new ArrayList<>();
         for (MultipartFile image : images) {
-            File imageFile = new File(RandomStringUtils.random(10));
+            File imageFile = new File(name + "_" + RandomStringUtils.random(10));
             try {
                 imageFile.createNewFile();
                 FileUtils.writeAllBytes(image.getBytes(), imageFile);
