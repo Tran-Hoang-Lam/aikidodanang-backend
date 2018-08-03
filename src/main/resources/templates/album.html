@@ -16,7 +16,7 @@
     <div class="row" id="react">
         <div class="col-lg-8 col-md-10 mx-auto">
             <th:block th:each="album : ${albums}">
-                <h2 th:text="${album.name}"></h2>
+                <h3 th:text="${album.name}"></h3>
                 <div th:id="${album.id}" class="carousel slide" data-ride="carousel" style="width: 100%">
                     <!-- Indicators -->
                     <ul class="carousel-indicators">
@@ -42,7 +42,7 @@
                     </a>
                 </div>
                 <br/>
-                <br/>
+                <hr/>
             </th:block>
         </div>
     </div>

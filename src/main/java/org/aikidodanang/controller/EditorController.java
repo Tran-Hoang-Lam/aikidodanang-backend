@@ -85,8 +85,13 @@ public class EditorController {
     }
 
     @GetMapping("/album")
-    public String redirectEditAlbum(@RequestParam("action") String action, Model model) {
+    public String redirectEditAlbum(@RequestParam(value = "action", required = false) String action,
+                                    @RequestParam(value = "result", required = false) String result,
+                                    Model model) {
         model.addAttribute("action", action);
+        model.addAttribute("result", result != null
+                ? (result.equals("ok") ? "Creating your album!!! Check album screen after 5 minutes" : "Failed!!!")
+                : "");
         return "editAlbum";
     }
 
@@ -100,8 +105,6 @@ public class EditorController {
 
         createAlbumChannel.send(MessageBuilder.withPayload(data).build());
 
-        model.addAttribute("result", "Creating your album!!! Check album screen after 5 minutes");
-
-        return "redirect:/edit/album?action=add";
+        return "redirect:/edit/album?action=add&result=ok";
     }
 }
