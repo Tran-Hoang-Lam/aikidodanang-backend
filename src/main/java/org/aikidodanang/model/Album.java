@@ -27,6 +27,8 @@ public class Album {
     private String name;
     @Field("urls")
     private List<String> urls;
+    @Field("featureImages")
+    private String featureImage;
     @Field("createDate")
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     @JsonSerialize(using = LocalDateTimeSerializer.class)
