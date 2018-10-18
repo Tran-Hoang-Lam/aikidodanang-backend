@@ -2,4 +2,4 @@ pipeline:
   build:
     image: gradle
     commands:
-    - ./gradle clean build
+    - su ./gradle clean build
