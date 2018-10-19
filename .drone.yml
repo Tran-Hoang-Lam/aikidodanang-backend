@@ -2,4 +2,4 @@ pipeline:
   build:
     image: gradle
     commands:
-      - gradle clean build
+      - gradle clean build --stacktrace
