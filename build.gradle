@@ -1,18 +1,5 @@
-buildscript {
-    ext {
-        springBootVersion = '2.0.2.RELEASE'
-    }
-    repositories{
-        mavenCentral()
-    }
-    dependencies{
-        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
-    }
-}
-
 apply plugin: 'java'
-apply plugin: 'org.springframework.boot'
-apply plugin: 'io.spring.dependency-management'
+apply plugin: 'maven'
 
 group = 'org'
 version = '0.0.1-SNAPSHOT'
@@ -21,27 +8,33 @@ description = """aikidodanang"""
 
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
-
 tasks.withType(JavaCompile) {
 	options.encoding = 'UTF-8'
 }
 
+
+
 repositories {
-    mavenCentral()
+        
+     maven { url "http://central" }
+     maven { url "http://repo.spring.io/plugins-release/" }
 }
-
-configurations {
-    compile.exclude module: 'spring-boot-starter-tomcat'
-    compile.exclude group: 'org.apache.tomcat'
-}
-
 dependencies {
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-data-mongodb', version:'2.0.2.RELEASE'
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-data-rest', version:'2.0.2.RELEASE'
-    compile group: 'org.springframework.boot', name: 'spring-boot-starter-web', version:'2.0.2.RELEASE'
+    compile(group: 'org.springframework.boot', name: 'spring-boot-starter-web', version:'2.0.2.RELEASE') {
+exclude(module: 'spring-boot-starter-tomcat')
+    }
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-jetty', version:'2.0.2.RELEASE'
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-thymeleaf', version:'2.0.2.RELEASE'
+    compile group: 'org.pegdown', name: 'pegdown', version:'1.6.0'
+    compile group: 'com.overzealous', name: 'remark', version:'1.0.0'
     compile group: 'org.projectlombok', name: 'lombok', version:'1.16.20'
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-security', version:'2.0.2.RELEASE'
+    compile group: 'org.springframework.security', name: 'spring-security-jwt', version:'1.0.9.RELEASE'
+    compile group: 'org.springframework.security.oauth', name: 'spring-security-oauth2', version:'2.3.3.RELEASE'
+    compile group: 'com.cloudinary', name: 'cloudinary', version:'1.0.14'
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-integration', version:'2.0.2.RELEASE'
     runtime group: 'org.springframework.boot', name: 'spring-boot-devtools', version:'2.0.2.RELEASE'
     testCompile group: 'org.springframework.boot', name: 'spring-boot-starter-test', version:'2.0.2.RELEASE'
 }
