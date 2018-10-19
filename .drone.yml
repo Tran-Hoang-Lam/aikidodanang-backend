@@ -1,5 +1,5 @@
 pipeline:
   build:
-    image: library/gradle:jdk8
+    image: library/maven:3-jdk-8
     commands:
-    - ./gradle clean build
+    - mvn clean install
