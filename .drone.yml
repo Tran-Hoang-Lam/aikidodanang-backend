@@ -1,5 +1,6 @@
-pipeline:
-  build:
-    image: library/maven:3-jdk-8
-    commands:
-    - mvn clean install
+build:
+  image: java:openjdk-7
+  environment:
+  - GRADLE_USER_HOME=~/.gradle
+  commands:
+  - ./gradlew test
