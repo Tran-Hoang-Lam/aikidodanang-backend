@@ -1,5 +1,6 @@
 pipeline:
   build:
-    image: gradle
+    image: java:openjdk-8
     commands:
-      - gradle -u root clean build --stacktrace
+      - chmod +x gradlew
+      - ./gradlew clean build
