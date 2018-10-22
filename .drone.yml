@@ -13,5 +13,5 @@ pipeline:
     image: appleboy/drone-ssh
     host: 35.226.108.125
     secrets: [ ssh_key ]
-    script:
+    commands:
     - docker-compose -f aikido-container-only.yaml up -d
