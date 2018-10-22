@@ -15,7 +15,6 @@ public class AikidodanangApplication {
 
 	@Bean
     public PegDownProcessor pegDownProcessor(){
-
         return new PegDownProcessor(Extensions.ALL);
     }
 }
