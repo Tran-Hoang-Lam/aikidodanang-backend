@@ -10,4 +10,3 @@ pipeline:
       - echo $DOCKER_USERNAME
       - echo $DOCKER_PASSWORD
     secrets: [ docker_username, docker_password ]
-    repo: lamth2/aikidodanang-backend
