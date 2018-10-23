@@ -4,6 +4,7 @@ pipeline:
     secrets: [ application_prod ]
     commands:
     - echo -n "$APPLICATION_PROD" > src/main/resources/application-prod.properties
+    - chmod +x mvnw
     - ./mvnw clean install
   docker:
     image: plugins/docker
