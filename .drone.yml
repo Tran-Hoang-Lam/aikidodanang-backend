@@ -9,9 +9,4 @@ pipeline:
     secrets: [ docker_hub_user, docker_hub_password ]
     repo: lamth2/aikidodanang-backend
     tags: latest
-  deploy:
-    image: appleboy/drone-ssh
-    host: 35.226.108.125
-    secrets: [ ssh_key ]
-    commands:
-    - docker-compose -f aikido-container-only.yaml up -d
+
