@@ -9,5 +9,5 @@ pipeline:
     debug: true
     secrets: [ docker_username, docker_password ]
     repo: lamth2/aikidodanang-backend
-    tags: latest
+    tags: lamth2/aikidodanang-backend
 
