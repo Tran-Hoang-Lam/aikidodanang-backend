@@ -1,10 +1,14 @@
 pipeline:
   build:
     image: java:openjdk-8
+    secrets: [ application-prod ]
     commands:
+    - echo -n "$APPLICATION_PROD" > src/main/resources/application-prod.properties
       - chmod +x gradlew
       - ./gradlew clean build
   docker:
     image: plugins/docker
     repo: lamth2/aikidodanang-backend
     secrets: [ docker_username, docker_password ]
+    tags:
+    - test
