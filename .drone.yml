@@ -4,9 +4,7 @@ pipeline:
     secrets: [ application_prod ]
     commands:
     - echo -n "$APPLICATION_PROD" > src/main/resources/application-prod.properties
-    - cat src/main/resources/application-prod.properties
-    - chmod +x gradlew
-    - ./gradlew clean build
+    - mvn clean install
   docker:
     image: plugins/docker
     repo: lamth2/aikidodanang-backend
