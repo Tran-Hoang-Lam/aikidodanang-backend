@@ -7,8 +7,8 @@ pipeline:
   docker:
     image: plugins/docker
     debug: true
-    secrets: [ docker_username, docker_password ]
-    repo: aikidodanang-backend
+    secrets: [ DOCKER_USERNAME, DOCKER_PASSWORD ]
+    repo: lamth2/aikidodanang-backend
     tags:
       - latest
 
