@@ -23,7 +23,7 @@ dependencies {
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-data-mongodb', version:'2.0.2.RELEASE'
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-data-rest', version:'2.0.2.RELEASE'
     compile(group: 'org.springframework.boot', name: 'spring-boot-starter-web', version:'2.0.2.RELEASE') {
-exclude(module: 'spring-boot-starter-tomcat')
+        exclude(module: 'spring-boot-starter-tomcat')
     }
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-jetty', version:'2.0.2.RELEASE'
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-thymeleaf', version:'2.0.2.RELEASE'
@@ -32,7 +32,7 @@ exclude(module: 'spring-boot-starter-tomcat')
     compile group: 'org.projectlombok', name: 'lombok', version:'1.16.20'
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-security', version:'2.0.2.RELEASE'
     compile group: 'org.springframework.security', name: 'spring-security-jwt', version:'1.0.9.RELEASE'
-    compile group: 'org.springframework.security.oauth', name: 'spring-security-oauth2', version:'2.3.3.RELEASE'
+    compile group: 'org.springframework.security.oauth', name: 'spring-security-oauth2', version: '2.3.4.RELEASE'
     compile group: 'com.cloudinary', name: 'cloudinary', version:'1.0.14'
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-integration', version:'2.0.2.RELEASE'
     runtime group: 'org.springframework.boot', name: 'spring-boot-devtools', version:'2.0.2.RELEASE'
