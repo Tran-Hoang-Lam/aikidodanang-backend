@@ -1,9 +1,9 @@
 pipeline:
   build:
     image: java:openjdk-8
-    secrets: [ application-prod ]
+    secrets: [ application_prod ]
     commands:
-    - echo -n "$APPLICATION-PROD" > src/main/resources/application-prod.properties
+    - echo -n "$APPLICATION_PROD" > src/main/resources/application-prod.properties
     - cat src/main/resources/application-prod.properties
     - chmod +x gradlew
     - ./gradlew clean build
