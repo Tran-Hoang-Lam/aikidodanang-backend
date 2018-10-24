@@ -1,13 +1,18 @@
 pipeline:
-  build:
+  build_dev:
     image: library/maven:3-jdk-8
-    secrets: [ application_prod ]
+    secrets: [ application_dev ]
     commands:
-    - echo -n "$APPLICATION_PROD" > src/main/resources/application-template.properties
+    - echo -n "$APPLICATION_DEV" > src/main/resources/application-dev.properties
     - mvn clean install
-  docker:
+    when:
+      branch: [ dev ]
+
+  docker_dev:
     image: plugins/docker
     repo: lamth2/aikidodanang-backend
     secrets: [ docker_username, docker_password ]
     tags:
     - test
+    when:
+      branch: [ dev ]
