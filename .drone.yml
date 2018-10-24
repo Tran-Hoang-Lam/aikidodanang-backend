@@ -3,7 +3,7 @@ pipeline:
     image: library/maven:3-jdk-8
     secrets: [ application_prod ]
     commands:
-    - echo -n "$APPLICATION_PROD" > src/main/resources/application-prod.properties
+    - echo -n "$APPLICATION_PROD" > src/main/resources/application-template.properties
     - mvn clean install
   docker:
     image: plugins/docker
