@@ -5,7 +5,7 @@ pipeline:
     commands:
     - echo -n "$APPLICATION_DEV" > src/main/resources/application-dev.properties
     - chmod +x gradlew
-    - ./gradlew clean build
+    - ./gradlew clean build -x test
     when:
       branch: [ dev ]
 
