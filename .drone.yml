@@ -1,10 +1,11 @@
 pipeline:
   build_dev:
-    image: library/maven:3-jdk-8
+    image: java:openjdk-8
     secrets: [ application_dev ]
     commands:
     - echo -n "$APPLICATION_DEV" > src/main/resources/application-dev.properties
-    - mvn clean install
+    - chmod +x gradlew
+    - ./gradlew clean build
     when:
       branch: [ dev ]
 
