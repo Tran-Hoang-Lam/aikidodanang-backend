@@ -1,57 +1,60 @@
 buildscript {
-    ext {
-        springBootVersion = '2.0.2.RELEASE'
-    }
-    repositories {
-        mavenCentral()
-    }
-    dependencies {
-        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
-    }
+	ext {
+		kotlinVersion = '1.2.51'
+		springBootVersion = '2.0.6.RELEASE'
+	}
+	repositories {
+		mavenCentral()
+	}
+	dependencies {
+		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+		classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:${kotlinVersion}")
+		classpath("org.jetbrains.kotlin:kotlin-allopen:${kotlinVersion}")
+	}
 }
 
-apply plugin: 'java'
-apply plugin: 'maven'
+apply plugin: 'kotlin'
+apply plugin: 'kotlin-spring'
+apply plugin: 'eclipse'
 apply plugin: 'org.springframework.boot'
 apply plugin: 'io.spring.dependency-management'
 
-group = 'org'
+group = 'org.aikidodanang'
 version = '0.0.1-SNAPSHOT'
-
-description = """aikidodanang"""
-
 sourceCompatibility = 1.8
-targetCompatibility = 1.8
-tasks.withType(JavaCompile) {
-	options.encoding = 'UTF-8'
+compileKotlin {
+	kotlinOptions {
+		freeCompilerArgs = ["-Xjsr305=strict"]
+		jvmTarget = "1.8"
+	}
 }
-
-bootJar {
-    baseName = 'aikidodanang'
-    version =  '0.0.1'
+compileTestKotlin {
+	kotlinOptions {
+		freeCompilerArgs = ["-Xjsr305=strict"]
+		jvmTarget = "1.8"
+	}
 }
 
 repositories {
-        
-     maven { url "http://central" }
-     maven { url "http://repo.spring.io/plugins-release/" }
+	mavenCentral()
 }
+
+
 dependencies {
-    compile group: 'org.springframework.boot', name: 'spring-boot-starter-data-mongodb', version:'2.0.2.RELEASE'
-    compile group: 'org.springframework.boot', name: 'spring-boot-starter-data-rest', version:'2.0.2.RELEASE'
-    compile(group: 'org.springframework.boot', name: 'spring-boot-starter-web', version:'2.0.2.RELEASE') {
-        exclude(module: 'spring-boot-starter-tomcat')
-    }
-    compile group: 'org.springframework.boot', name: 'spring-boot-starter-jetty', version:'2.0.2.RELEASE'
-    compile group: 'org.springframework.boot', name: 'spring-boot-starter-thymeleaf', version:'2.0.2.RELEASE'
-    compile group: 'org.pegdown', name: 'pegdown', version:'1.6.0'
-    compile group: 'com.overzealous', name: 'remark', version:'1.0.0'
-    compile group: 'org.projectlombok', name: 'lombok', version:'1.16.20'
-    compile group: 'org.springframework.boot', name: 'spring-boot-starter-security', version:'2.0.2.RELEASE'
-    compile group: 'org.springframework.security', name: 'spring-security-jwt', version:'1.0.9.RELEASE'
-    compile group: 'org.springframework.security.oauth', name: 'spring-security-oauth2', version: '2.3.4.RELEASE'
-    compile group: 'com.cloudinary', name: 'cloudinary', version:'1.0.14'
-    compile group: 'org.springframework.boot', name: 'spring-boot-starter-integration', version:'2.0.2.RELEASE'
-    runtime group: 'org.springframework.boot', name: 'spring-boot-devtools', version:'2.0.2.RELEASE'
-    testCompile group: 'org.springframework.boot', name: 'spring-boot-starter-test', version:'2.0.2.RELEASE'
+	implementation('org.springframework.boot:spring-boot-starter-data-mongodb')
+	implementation('org.springframework.boot:spring-boot-starter-integration')
+	implementation('org.springframework.boot:spring-boot-starter-security')
+	implementation('org.springframework.boot:spring-boot-starter-thymeleaf')
+	implementation('org.springframework.boot:spring-boot-starter-web'){
+		exclude(module: 'spring-boot-starter-tomcat')
+	}
+    implementation (group: 'org.springframework.boot', name: 'spring-boot-starter-jetty', version: '2.0.6.RELEASE')
+	implementation('com.fasterxml.jackson.module:jackson-module-kotlin')
+    implementation (group: 'com.cloudinary', name: 'cloudinary', version:'1.0.14')
+    implementation (group: 'org.pegdown', name: 'pegdown', version:'1.6.0')
+	implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
+	implementation("org.jetbrains.kotlin:kotlin-reflect")
+	runtimeOnly('org.springframework.boot:spring-boot-devtools')
+	testImplementation('org.springframework.boot:spring-boot-starter-test')
+	testImplementation('org.springframework.security:spring-security-test')
 }
