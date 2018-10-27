@@ -5,6 +5,7 @@ pipeline:
     commands:
     - whoami
     - echo -n "$APPLICATION_DEV" > src/main/resources/application-dev.properties
+    - cat src/main/resources/application-dev.properties
     - ls -l src/main/resources/application-dev.properties
     - ls -l gradlew
     - ls -l Dockerfile
