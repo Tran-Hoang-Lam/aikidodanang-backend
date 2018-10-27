@@ -3,7 +3,9 @@ pipeline:
     image: java:openjdk-8
     secrets: [ application_dev ]
     commands:
+    - whoami
     - echo -n "$APPLICATION_DEV" > src/main/resources/application-dev.properties
+    - ls -l src/main/resources/application-dev.properties
     - chmod +x gradlew
     - ./gradlew clean build -x test
     when:
