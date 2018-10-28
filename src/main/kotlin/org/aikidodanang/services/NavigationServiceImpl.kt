@@ -16,10 +16,10 @@ class NavigationServiceImpl(
         val navigationTree = navigationTreeRepository.findAll()
         navigationTree.forEach { it ->
             val mainNavigationItemDto = navigationItemRepository.findByFriendlyName(friendlyName = it.friendlyName)
-            val navigationItemSubList: List<NavigationItemDto> = mutableListOf()
+            val navigationItemSubList: MutableList<NavigationItemDto> = mutableListOf()
             if (it.subNav.any()) {
                 it.subNav.forEach {
-                    navigationItemSubList.plus(navigationItemRepository.findByFriendlyName(it))
+                    navigationItemSubList.add(NavigationItemDto.fromNavigation(navigationItemRepository.findByFriendlyName(it)))
                 }
             }
             result.add(NavigationTreeDto(
