@@ -1,6 +1,6 @@
 buildscript {
 	ext {
-		kotlinVersion = '1.2.51'
+		kotlinVersion = '1.2.71'
 		springBootVersion = '2.0.6.RELEASE'
 	}
 	repositories {
@@ -18,6 +18,7 @@ apply plugin: 'kotlin-spring'
 apply plugin: 'eclipse'
 apply plugin: 'org.springframework.boot'
 apply plugin: 'io.spring.dependency-management'
+apply plugin: 'kotlin-kapt'
 
 group = 'org.aikidodanang'
 version = '0.0.1-SNAPSHOT'
@@ -54,6 +55,8 @@ dependencies {
     implementation (group: 'org.pegdown', name: 'pegdown', version:'1.6.0')
 	implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
+    compile("org.mapstruct:mapstruct-jdk8:1.2.0.Final")
+    kapt("org.mapstruct:mapstruct-processor:1.2.0.Final")
 	runtimeOnly('org.springframework.boot:spring-boot-devtools')
 	testImplementation('org.springframework.boot:spring-boot-starter-test')
 	testImplementation('org.springframework.security:spring-security-test')
