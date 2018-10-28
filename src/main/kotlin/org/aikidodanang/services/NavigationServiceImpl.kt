@@ -1,14 +1,10 @@
 package org.aikidodanang.services
 
-import org.aikidodanang.converter.NavigationConverter
 import org.aikidodanang.dto.NavigationItemDto
 import org.aikidodanang.dto.NavigationTreeDto
 import org.aikidodanang.repository.NavigationItemRepository
 import org.aikidodanang.repository.NavigationTreeRepository
-import org.mapstruct.factory.Mappers
 import org.springframework.stereotype.Service
-
-val navigationConverter = Mappers.getMapper(NavigationConverter::class.java)!!
 
 @Service("navigationService")
 class NavigationServiceImpl(
@@ -27,7 +23,7 @@ class NavigationServiceImpl(
                 }
             }
             result.add(NavigationTreeDto(
-                    item = navigationConverter.navigationToNavigationDto(mainNavigationItemDto),
+                    item = NavigationItemDto.fromNavigation(mainNavigationItemDto),
                     subNav = navigationItemSubList)
             )
         }
