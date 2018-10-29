@@ -14,7 +14,7 @@ class HomeController(
 
     @GetMapping
     fun redirectHome(model: Model): String {
-        println(navigationService.getNavigationTree())
+        model.addAttribute("navigation", navigationService.getNavigationTree())
         return "index"
     }
 }
