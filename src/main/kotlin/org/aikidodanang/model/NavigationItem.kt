@@ -8,12 +8,12 @@ data class NavigationItem(
         val id: String,
         val displayName: String,
         val friendlyName: String,
-        val postId: String
+        val postTitle: String
 ) {
     companion object {
         fun fromNavigationDto(navigationItemDto: NavigationItemDto) = NavigationItem(
                 displayName = navigationItemDto.displayName,
-                postId = navigationItemDto.postId,
+                postTitle = navigationItemDto.postTitle,
                 friendlyName = navigationItemDto.friendlyName,
                 id = ""
         )

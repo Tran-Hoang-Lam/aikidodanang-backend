@@ -7,13 +7,13 @@
 <body>
   <nav th:replace="fragment/nav::nav(navigation=${navigation})"></nav>
   <div class="page-header header-filter purple-filter" data-parallax="true"
-       style="background-image: url(https://res.cloudinary.com/dqbdhavya/image/upload/v1527360946/new-aikido-cover.jpg)">
+       th:style="'background-image: url(' + ${post.image} + ')'">
     <div class="container">
       <div class="row">
         <div class="col-md-8 ml-auto mr-auto">
           <div class="brand text-center">
-            <h1>Aikido Shindokan Đà Nẵng</h1>
-            <h3 class="title text-center">Hệ phái Aikikai</h3>
+              <h1 th:text="${post.heading}">Aikido Shindokan Đà Nẵng</h1>
+              <h3 th:text="${post.subHeading}" class="title text-center">Hệ phái Aikikai</h3>
           </div>
         </div>
       </div>
@@ -21,8 +21,11 @@
   </div>
   <div class="main main-raised">
     <div class="container">
-      <div class="section text-center">
-        <h2 class="title">Your main section here</h2>
+        <div class="section section-text">
+            <div class="row">
+                <div class="col-md-8 ml-auto mr-auto" th:utext="${post.content}">
+                </div>
+            </div>
       </div>
     </div>
   </div>
