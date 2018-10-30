@@ -1,0 +1,35 @@
+!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://thymeleaf.org">
+
+<!-- Navigation -->
+<nav th:fragment="nav" class="navbar navbar-color-on-scroll navbar-transparent fixed-top navbar-expand-lg" color-on-scroll="100">
+    <div class="container">
+        <div class="navbar-translate">
+            <a class="navbar-brand" th:href="@{/}">
+                Aikikai Shindokan Danang
+            </a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="navbar-toggler-icon"></span>
+                <span class="navbar-toggler-icon"></span>
+                <span class="navbar-toggler-icon"></span>
+            </button>
+        </div>
+        <div class="collapse navbar-collapse">
+            <ul class="navbar-nav ml-auto">
+                <li th:each="nav : ${navigation}" th:class="${!nav.subNav.empty ? 'dropdown nav-item' : 'nav-item'}">
+                    <a href="#" th:class="${!nav.subNav.empty ? 'dropdown-toggle nav-link' : 'nav-link'}"
+                       th:text="${nav.item.displayName}" th:attr="data-toggle=${!nav.subNav.empty ? &quot;dropdown&quot; : ''}">
+                    </a>
+                    <th:block th:if="${!nav.subNav.empty}">
+                        <div class="dropdown-menu">
+                            <a th:each="sub : ${nav.subNav}" th:href="'#'" class="dropdown-item" th:text="${sub.displayName}"></a>
+                        </div>
+                    </th:block>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+</html>
