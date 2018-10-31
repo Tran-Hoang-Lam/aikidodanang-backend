@@ -19,12 +19,12 @@
         <div class="collapse navbar-collapse">
             <ul class="navbar-nav ml-auto">
                 <li th:each="nav : ${navigation}" th:class="${!nav.subNav.empty ? 'dropdown nav-item' : 'nav-item'}">
-                    <a href="#" th:class="${!nav.subNav.empty ? 'dropdown-toggle nav-link' : 'nav-link'}"
+                    <a th:href="@{'~/' + ${nav.item.friendlyName} + '/' + ${nav.item.postTitle}}" th:class="${!nav.subNav.empty ? 'dropdown-toggle nav-link' : 'nav-link'}"
                        th:text="${nav.item.displayName}" th:attr="data-toggle=${!nav.subNav.empty ? &quot;dropdown&quot; : ''}">
                     </a>
                     <th:block th:if="${!nav.subNav.empty}">
                         <div class="dropdown-menu">
-                            <a th:each="sub : ${nav.subNav}" th:href="'#'" class="dropdown-item" th:text="${sub.displayName}"></a>
+                            <a th:each="sub : ${nav.subNav}" th:href="@{'~/' + ${nav.item.friendlyName} + '/' + ${sub.postTitle}}" class="dropdown-item" th:text="${sub.displayName}"></a>
                         </div>
                     </th:block>
                 </li>

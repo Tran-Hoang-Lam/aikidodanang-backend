@@ -6,5 +6,6 @@ import org.springframework.data.mongodb.core.mapping.Document
 data class NavigationTree(
         val id: String,
         val friendlyName: String,
+        val order: Int,
         val subNav: List<String>
 )

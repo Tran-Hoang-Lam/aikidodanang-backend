@@ -2,6 +2,7 @@ package org.aikidodanang.services
 
 import org.aikidodanang.dto.NavigationItemDto
 import org.aikidodanang.dto.NavigationTreeDto
+import org.aikidodanang.model.NavigationTree
 import org.aikidodanang.repository.NavigationItemRepository
 import org.aikidodanang.repository.NavigationTreeRepository
 import org.springframework.stereotype.Service
@@ -13,7 +14,7 @@ class NavigationServiceImpl(
 ) : NavigationService {
     override fun getNavigationTree(): MutableList<NavigationTreeDto> {
         val result: MutableList<NavigationTreeDto> = mutableListOf()
-        val navigationTree = navigationTreeRepository.findAll()
+        val navigationTree = navigationTreeRepository.findAll().toSortedSet(compareBy {it.order})
         navigationTree.forEach { it ->
             val mainNavigationItemDto = navigationItemRepository.findByFriendlyName(friendlyName = it.friendlyName)
             val navigationItemSubList: MutableList<NavigationItemDto> = mutableListOf()

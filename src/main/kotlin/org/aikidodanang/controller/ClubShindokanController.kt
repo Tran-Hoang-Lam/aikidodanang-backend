@@ -5,25 +5,26 @@ import org.aikidodanang.services.PostService
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestMapping
 
 @Controller
-@RequestMapping("/")
-class HomeController(
+@RequestMapping("club-shindokan")
+class ClubShindokanController(
         navigationService: NavigationService,
         postService: PostService
-): BaseController(
+) : BaseController(
         navigationService = navigationService,
         postService = postService
-) {
+){
     override fun getScreenName(): String {
-        return "index"
+        return "view-post"
     }
 
-    @GetMapping
-    fun redirectHome(model: Model): String {
+    @GetMapping("{postTitle}")
+    fun redirectPage(@PathVariable("postTitle") postTitle: String, model: Model): String {
         getNavigation(model)
-        model.addAttribute("post", postService.findByTitle("so-luoc-ve-to-su"))
+        defaultPostProcess(postTitle, model)
         return getScreenName()
     }
 }
