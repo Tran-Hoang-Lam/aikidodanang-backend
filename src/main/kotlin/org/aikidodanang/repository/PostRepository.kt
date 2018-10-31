@@ -7,4 +7,5 @@ import org.springframework.stereotype.Repository
 @Repository
 interface PostRepository : MongoRepository<Post, String> {
     fun findByTitle(title: String): Post
+    fun findAllByArticle(article: Boolean): List<Post>
 }

@@ -10,6 +10,7 @@ data class PostDto(
         val heading: String,
         val subHeading: String,
         val content: String,
+        val article: Boolean,
         val createDate: LocalDateTime
 ) {
     companion object {
@@ -20,6 +21,7 @@ data class PostDto(
                 heading = post.heading,
                 subHeading = post.subHeading,
                 content = post.content,
+                article = post.article,
                 createDate = post.createDate
         )
     }

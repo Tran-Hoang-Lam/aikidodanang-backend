@@ -7,7 +7,7 @@
 <body class="blog-post">
   <nav th:replace="fragment/nav::nav(navigation=${navigation})"></nav>
   <div class="page-header header-filter purple-filter" data-parallax="true"
-       th:style="'background-image: url(' + ${post.image} + ')'">
+       style="background-image: url(https://res.cloudinary.com/dqbdhavya/image/upload/v1527360946/new-aikido-cover.jpg)">
     <div class="container">
       <div class="row">
         <div class="col-md-8 ml-auto mr-auto">
@@ -21,9 +21,19 @@
   </div>
   <div class="main main-raised">
     <div class="container">
-        <div class="section section-text">
+        <div class="section">
             <div class="row">
-                <div class="col-md-8 ml-auto mr-auto" th:utext="${post.content}">
+                <div class="col-md-12 ml-auto mr-auto">
+                    <div th:each="article : ${articleList}" class="card card-raised card-background"
+                         th:style="'background-image: url(' + ${article.image} +')'">
+                        <div class="card-body">
+                            <h3 class="card-title" th:text="${article.heading}"></h3>
+                            <p class="card-description" th:text="${article.subHeading} + '...'"></p>
+                            <a th:href="@{'~/article/' + ${article.title}}" class="btn btn-warning btn-round">
+                                <i class="material-icons">subject</i> Read More
+                            </a>
+                        </div>
+                    </div>
                 </div>
             </div>
       </div>

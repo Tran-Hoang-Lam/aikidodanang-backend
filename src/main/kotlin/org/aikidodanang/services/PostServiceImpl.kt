@@ -11,4 +11,9 @@ class PostServiceImpl(
     override fun findByTitle(title: String): PostDto {
         return PostDto.fromPost(postRepository.findByTitle(title))
     }
+
+    override fun findAllByArticle(article: Boolean): List<PostDto> {
+        val articleList = postRepository.findAllByArticle(article)
+        return articleList.map { PostDto.fromPost(it) }
+    }
 }
