@@ -36,3 +36,12 @@ pipeline:
     - latest
     when:
       branch: [ master ]
+
+  deploy_dev:
+    image: appleboy/drone-ssh
+    host: aikidodanang.org
+    secret: [ ssh_key ]
+    port: 22
+    script:
+    - echo hello
+    - echo world
