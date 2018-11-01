@@ -40,7 +40,7 @@ pipeline:
   deploy_dev:
     image: appleboy/drone-ssh
     host: 35.226.108.125
-    username: lamth2
+    username: bfghf
     secrets: [ ssh_key ]
     port: 22
     script:
