@@ -39,6 +39,7 @@ pipeline:
 
   deploy_dev:
     image: appleboy/drone-ssh
+    pull: true
     host: aikidodanang.org
     username: bfghfgg0205
     secrets: [ ssh_key ]
