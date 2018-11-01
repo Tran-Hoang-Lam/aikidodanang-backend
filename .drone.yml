@@ -39,7 +39,7 @@ pipeline:
 
   deploy_dev:
     image: appleboy/drone-ssh
-    host: aikidodanang.org
+    host: 35.226.108.125
     secrets: [ ssh_key ]
     port: 22
     script:
