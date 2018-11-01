@@ -45,9 +45,7 @@ pipeline:
     secrets: [ ssh_key ]
     port: 22
     script:
-    - docker rm -f aikido-site-dev
-    - docker rmi lamth2/aikidodanang-backend:test
-    - whoami
+    - /opt/bin/docker-compose -f aikido-compose-ci.yaml pull
     - /opt/bin/docker-compose -f aikido-compose-ci.yaml up -d
     when:
       branch: [ dev ]
@@ -60,8 +58,7 @@ pipeline:
     secrets: [ ssh_key ]
     port: 22
     script:
-    - docker rm -f aikido-site
-    - docker rmi lamth2/aikidodanang-backend:latest
+    - /opt/bin/docker-compose -f aikido-compose-ci.yaml pull
     - /opt/bin/docker-compose -f aikido-compose-ci.yaml up -d
     when:
       branch: [ master ]
