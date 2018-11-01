@@ -36,3 +36,32 @@ pipeline:
     - latest
     when:
       branch: [ master ]
+
+  deploy_dev:
+    image: appleboy/drone-ssh
+    pull: true
+    host: aikidodanang.org
+    username: bfghfgg0205
+    secrets: [ ssh_key ]
+    port: 22
+    script:
+    - docker rm -f aikido-site-dev
+    - docker rmi lamth2/aikidodanang-backend:test
+    - whoami
+    - /opt/bin/docker-compose -f aikido-compose-ci.yaml up -d
+    when:
+      branch: [ dev ]
+
+    deploy_prod:
+      image: appleboy/drone-ssh
+      pull: true
+      host: aikidodanang.org
+      username: bfghfgg0205
+      secrets: [ ssh_key ]
+      port: 22
+      script:
+      - docker rm -f aikido-site-dev
+      - docker rmi lamth2/aikidodanang-backend:latest
+      - /opt/bin/docker-compose -f aikido-compose-ci.yaml up -d
+      when:
+        branch: [ master ]
