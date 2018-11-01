@@ -62,6 +62,6 @@ pipeline:
       script:
       - docker rm -f aikido-site-dev
       - docker rmi lamth2/aikidodanang-backend:latest
-      - docker-compose -f aikido-compose-ci.yaml up -d
+      - /opt/bin/docker-compose -f aikido-compose-ci.yaml up -d
       when:
         branch: [ master ]
