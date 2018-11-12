@@ -37,7 +37,7 @@ pipeline:
     when:
       branch: [ master ]
 
-  deploy:
+  deploy_prod:
     image: appleboy/drone-ssh
     pull: true
     host: aikidodanang.org
@@ -45,8 +45,22 @@ pipeline:
     secrets: [ ssh_key ]
     port: 22
     script:
-    - /opt/bin/docker-compose -f aikido-compose-ci.yaml pull
-    - /opt/bin/docker-compose -f aikido-compose-ci.yaml up -d
+    - /opt/bin/docker-compose -f aikido-prod-compose.yaml pull
+    - /opt/bin/docker-compose -f aikido-prod-compose.yaml up -d
+    when:
+      branch: [ master ]
+  deploy_dev:
+    image: appleboy/drone-ssh
+    pull: true
+    host: aikidodanang.org
+    username: bfghfgg0205
+    secrets: [ ssh_key ]
+    port: 22
+    script:
+    - /opt/bin/docker-compose -f aikido-dev-compose.yaml pull
+    - /opt/bin/docker-compose -f aikido-dev-compose.yaml up -d
+    when:
+      branch: [ dev ]
 
   notify_fail:
     image: drillster/drone-email
@@ -72,4 +86,4 @@ pipeline:
       {{ repo.owner }}/{{ repo.name }}
       ({{ build.branch }} - {{ truncate build.commit 8 }})
     when:
-      status: [ sucess ]
+      status: [ success ]
