@@ -51,7 +51,6 @@ dependencies {
     implementation (group: 'org.springframework.boot', name: 'spring-boot-starter-jetty', version: '2.0.6.RELEASE')
 	implementation('com.fasterxml.jackson.module:jackson-module-kotlin')
     implementation (group: 'com.cloudinary', name: 'cloudinary', version:'1.0.14')
-    implementation (group: 'org.pegdown', name: 'pegdown', version:'1.6.0')
 	implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
 	runtimeOnly('org.springframework.boot:spring-boot-devtools')
