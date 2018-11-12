@@ -47,3 +47,29 @@ pipeline:
     script:
     - /opt/bin/docker-compose -f aikido-compose-ci.yaml pull
     - /opt/bin/docker-compose -f aikido-compose-ci.yaml up -d
+
+  notify_fail:
+    image: drillster/drone-email
+    from: drone@aikidodanang.org
+    recipients: [ support@aikidodanang.org ]
+    secrets: [ email_host, email_username, email_password ]
+    subject: >
+      [Build {{ build.status }}]
+    body: >
+      {{ repo.owner }}/{{ repo.name }}
+      ({{ build.branch }} - {{ truncate build.commit 8 }})
+    when:
+      status: [ failure ]
+
+  notify_sucess:
+    image: drillster/drone-email
+    from: drone@aikidodanang.org
+    recipients: [ support@aikidodanang.org ]
+    secrets: [ email_host, email_username, email_password ]
+    subject: >
+      [Build {{ build.status }}]
+    body: >
+      {{ repo.owner }}/{{ repo.name }}
+      ({{ build.branch }} - {{ truncate build.commit 8 }})
+    when:
+      status: [ sucess ]
