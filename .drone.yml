@@ -68,10 +68,10 @@ pipeline:
     recipients: [ support@aikidodanang.org ]
     secrets: [ email_host, email_username, email_password ]
     subject: >
-      [Build {{ build.status }}]
+      [Build #{{build.number}} {{ build.status }}]
     body: >
-      {{ repo.owner }}/{{ repo.name }}
-      ({{ build.branch }} - {{ truncate build.commit 8 }})
+      {{ repo.owner }}/{{ repo.name }} - branch {{commit.branch}}
+      (Link: {{build.link}})
     when:
       status: [ failure ]
 
@@ -81,9 +81,9 @@ pipeline:
     recipients: [ support@aikidodanang.org ]
     secrets: [ email_host, email_username, email_password ]
     subject: >
-      [Build {{ build.status }}]
+      [Build #{{build.number}} {{ build.status }}]
     body: >
-      {{ repo.owner }}/{{ repo.name }}
-      ({{ build.branch }} - {{ truncate build.commit 8 }})
+      {{ repo.owner }}/{{ repo.name }} - branch {{commit.branch}}
+      (Link: {{build.link}})
     when:
       status: [ success ]
