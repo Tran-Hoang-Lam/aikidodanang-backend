@@ -37,7 +37,7 @@ pipeline:
     when:
       branch: [ master ]
 
-  deploy_dev:
+  deploy:
     image: appleboy/drone-ssh
     pull: true
     host: aikidodanang.org
@@ -47,18 +47,3 @@ pipeline:
     script:
     - /opt/bin/docker-compose -f aikido-compose-ci.yaml pull
     - /opt/bin/docker-compose -f aikido-compose-ci.yaml up -d
-    when:
-      branch: [ dev ]
-
-  deploy_prod:
-    image: appleboy/drone-ssh
-    pull: true
-    host: aikidodanang.org
-    username: bfghfgg0205
-    secrets: [ ssh_key ]
-    port: 22
-    script:
-    - /opt/bin/docker-compose -f aikido-compose-ci.yaml pull
-    - /opt/bin/docker-compose -f aikido-compose-ci.yaml up -d
-    when:
-      branch: [ master ]
