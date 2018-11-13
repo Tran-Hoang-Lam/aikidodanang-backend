@@ -69,7 +69,7 @@ pipeline:
     secrets: [ email_host, email_username, email_password ]
     subject: >
       [Build #{{build.number}} {{ build.status }}]
-    body: >
+    body: |
       {{ repo.owner }}/{{ repo.name }} - branch {{commit.branch}}
       (Link: {{build.link}})
     when:
@@ -82,7 +82,7 @@ pipeline:
     secrets: [ email_host, email_username, email_password ]
     subject: >
       [Build #{{build.number}} {{ build.status }}]
-    body: >
+    body: |
       {{ repo.owner }}/{{ repo.name }} - branch {{commit.branch}}
       (Link: {{build.link}})
     when:
