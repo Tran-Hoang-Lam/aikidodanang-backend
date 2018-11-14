@@ -108,10 +108,10 @@ steps:
       recipients: [ support@aikidodanang.org ]
       host:
         from_secret: email_host
-        username:
-          from_secret: email_username
-        password:
-          from_secret: email_password
+      username:
+        from_secret: email_username
+      password:
+        from_secret: email_password
       subject: >
         [Build #{{build.number}} {{ build.status }}]
       body: |
