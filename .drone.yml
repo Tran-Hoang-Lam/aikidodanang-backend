@@ -1,7 +1,12 @@
-pipeline:
-  build_dev:
+kind: pipeline
+name: default
+
+steps:
+  - name: build_dev
     image: java:openjdk-8
-    secrets: [ application_dev ]
+    environment:
+      APPLICATION_DEV:
+        from_secret: application_dev
     commands:
     - echo "$APPLICATION_DEV" >> src/main/resources/application.properties
     - chmod +x gradlew
@@ -9,9 +14,11 @@ pipeline:
     when:
       branch: [ dev ]
 
-  build_prod:
+  - name: build_prod
     image: java:openjdk-8
-    secrets: [ application_prod ]
+    environment:
+      APPLICATION_PROD:
+        from_secret: application_prod
     commands:
     - echo "$APPLICATION_PROD" >> src/main/resources/application.properties
     - chmod +x gradlew
@@ -19,71 +26,96 @@ pipeline:
     when:
       branch: [ master ]
 
-  docker_dev:
+  - name: docker_dev
     image: plugins/docker
-    repo: lamth2/aikidodanang-backend
-    secrets: [ docker_username, docker_password ]
-    tags:
-    - test
+    settings:
+      repo: lamth2/aikidodanang-backend
+      tags:
+        - test
+      username:
+        from_secret: docker_username
+      password:
+        from_secret: docker_password
     when:
       branch: [ dev ]
 
-  docker_prod:
+  - name: docker_prod
     image: plugins/docker
-    repo: lamth2/aikidodanang-backend
-    secrets: [ docker_username, docker_password ]
-    tags:
-    - latest
+    settings:
+      repo: lamth2/aikidodanang-backend
+      tags:
+      - latest
+      username:
+        from_secret: docker_username
+      password:
+        from_secret: docker_password
     when:
       branch: [ master ]
 
-  deploy_prod:
+  - name: deploy_prod
     image: appleboy/drone-ssh
     pull: true
-    host: aikidodanang.org
-    username: bfghfgg0205
-    secrets: [ ssh_key ]
-    port: 22
-    script:
-    - /opt/bin/docker-compose -f aikido-prod-compose.yaml pull
-    - /opt/bin/docker-compose -f aikido-prod-compose.yaml up -d
+    settings:
+      host: aikidodanang.org
+      username: bfghfgg0205
+      key:
+        from_secret: ssh_key
+      port: 22
+      script:
+        - /opt/bin/docker-compose -f aikido-prod-compose.yaml pull
+        - /opt/bin/docker-compose -f aikido-prod-compose.yaml up -d
     when:
       branch: [ master ]
-  deploy_dev:
+
+  - name: deploy_dev
     image: appleboy/drone-ssh
     pull: true
-    host: aikidodanang.org
-    username: bfghfgg0205
-    secrets: [ ssh_key ]
-    port: 22
-    script:
-    - /opt/bin/docker-compose -f aikido-dev-compose.yaml pull
-    - /opt/bin/docker-compose -f aikido-dev-compose.yaml up -d
+    settings:
+      host: aikidodanang.org
+      username: bfghfgg0205
+      key:
+        from_secret: ssh_key
+      port: 22
+      script:
+        - /opt/bin/docker-compose -f aikido-dev-compose.yaml pull
+        - /opt/bin/docker-compose -f aikido-dev-compose.yaml up -d
     when:
       branch: [ dev ]
 
-  notify_fail:
+  - name: notify_fail
     image: drillster/drone-email
-    from: drone@aikidodanang.org
-    recipients: [ support@aikidodanang.org ]
-    secrets: [ email_host, email_username, email_password ]
-    subject: >
-      [Build #{{build.number}} {{ build.status }}]
-    body: |
-      {{ repo.owner }}/{{ repo.name }} - branch {{commit.branch}}
-      (Link: {{build.link}})
+    settings:
+      from: drone@aikidodanang.org
+      recipients: [ support@aikidodanang.org ]
+      host:
+        from_secret: email_host
+      username:
+        from_secret: email_username
+      password:
+        from_secret: email_password
+      subject: >
+        [Build #{{build.number}} {{ build.status }}]
+      body: |
+        {{ repo.owner }}/{{ repo.name }} - branch {{commit.branch}}
+        (Link: {{build.link}})
     when:
       status: [ failure ]
 
-  notify_sucess:
+  - name: notify_sucess
     image: drillster/drone-email
-    from: drone@aikidodanang.org
-    recipients: [ support@aikidodanang.org ]
-    secrets: [ email_host, email_username, email_password ]
-    subject: >
-      [Build #{{build.number}} {{ build.status }}]
-    body: |
-      {{ repo.owner }}/{{ repo.name }} - branch {{commit.branch}}
-      (Link: {{build.link}})
+    settings:
+      from: drone@aikidodanang.org
+      recipients: [ support@aikidodanang.org ]
+      host:
+        from_secret: email_host
+        username:
+          from_secret: email_username
+        password:
+          from_secret: email_password
+      subject: >
+        [Build #{{build.number}} {{ build.status }}]
+      body: |
+        {{ repo.owner }}/{{ repo.name }} - branch {{commit.branch}}
+        (Link: {{build.link}})
     when:
       status: [ success ]
