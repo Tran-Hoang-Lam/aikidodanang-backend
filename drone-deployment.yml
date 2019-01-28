@@ -42,7 +42,7 @@ spec:
                   name: github-credentials
                   key: rpcSecret
             - name: DRONE_SERVER_HOST
-              value: https://drone.aikidodanang.org
+              value: drone.aikidodanang.org
             - name: DRONE_SERVER_PROTO
               value: https
           volumeMounts:
@@ -58,6 +58,7 @@ metadata:
   labels:
     kubernetes.io/name: drone
   name: drone
+  namespace: drone
 spec:
   ports:
     - port: 80
@@ -69,7 +70,8 @@ spec:
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
-  name: aikido-k8s
+  name: drone
+  namespace: drone
   annotations:
     kubernetes.io/ingress.class: traefik
 spec:
