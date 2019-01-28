@@ -37,6 +37,7 @@ metadata:
   namespace: database
   labels:
     k8s-app: mongo
+    kubernetes.io/name: mongo
 spec:
   selector:
     k8s-app: mongo

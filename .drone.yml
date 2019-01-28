@@ -71,7 +71,7 @@ steps:
     image: java:openjdk-8
     environment:
       APPLICATION_DEV:
-        from_secret: application_dev
+        from_secret: application_k8s
     commands:
       - echo "$APPLICATION_K8S" >> src/main/resources/application.properties
       - chmod +x gradlew
