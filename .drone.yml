@@ -31,7 +31,7 @@ steps:
     settings:
       repo: lamth2/aikidodanang-backend
       tags:
-        - test
+        - '${DRONE_COMMIT:0:8}'
       username:
         from_secret: docker_username
       password:
