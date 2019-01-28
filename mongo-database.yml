@@ -15,11 +15,10 @@ spec:
         k8s-app: mongo
         name: mongo
     spec:
-      terminationGracePeriodSeconds: 60
       volumes:
         - name: data
           hostPath:
-            path: /mnt/disks/MongoData
+            path: /mnt/stateful_partition/MongoData
       containers:
         - image: mongo
           name: mongo-database
