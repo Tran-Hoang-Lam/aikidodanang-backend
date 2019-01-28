@@ -1,0 +1,83 @@
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: drone
+  namespace: drone
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: drone
+        k8s-app: drone
+    spec:
+      volumes:
+        - name: data
+          hostPath:
+            path: /mnt/stateful_partition/drone
+      containers:
+        - name: drone
+          image: drone/drone:1.0.0-rc.5
+          env:
+            - name: DRONE_KUBERNETES_ENABLED
+              value: "true"
+            - name: DRONE_KUBERNETES_NAMESPACE
+              value: drone
+            - name: DRONE_GITHUB_SERVER
+              value: https://github.com
+            - name: DRONE_GITHUB_CLIENT_ID
+              valueFrom:
+                secretKeyRef:
+                  name: github-credentials
+                  key: clientId
+            - name: DRONE_GITHUB_CLIENT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: github-credentials
+                  key: clientSecret
+            - name: DRONE_RPC_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: github-credentials
+                  key: rpcSecret
+            - name: DRONE_SERVER_HOST
+              value: https://drone.aikidodanang.org
+            - name: DRONE_SERVER_PROTO
+              value: https
+          volumeMounts:
+            - mountPath: "/var/lib/drone/"
+              name: "data"
+          ports:
+            - containerPort: 80
+            - containerPort: 443
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    kubernetes.io/name: drone
+  name: drone
+spec:
+  ports:
+    - port: 80
+      targetPort: 80
+      name: web
+  selector:
+    k8s-app: drone
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: aikido-k8s
+  annotations:
+    kubernetes.io/ingress.class: traefik
+spec:
+  rules:
+    - host: drone.aikidodanang.org
+      http:
+        paths:
+          - path: /
+            backend:
+              serviceName: drone
+              servicePort: web
