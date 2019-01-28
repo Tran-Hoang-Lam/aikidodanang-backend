@@ -70,7 +70,7 @@ steps:
   - name: build_k8s
     image: java:openjdk-8
     environment:
-      APPLICATION_DEV:
+      APPLICATION_K8S:
         from_secret: application_k8s
     commands:
       - echo "$APPLICATION_K8S"
