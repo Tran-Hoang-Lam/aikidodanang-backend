@@ -27,20 +27,11 @@ spec:
             - name: DRONE_GITHUB_SERVER
               value: https://github.com
             - name: DRONE_GITHUB_CLIENT_ID
-              valueFrom:
-                secretKeyRef:
-                  name: github-credentials
-                  key: clientId
+              value: feb1ebfc17ab557253da
             - name: DRONE_GITHUB_CLIENT_SECRET
-              valueFrom:
-                secretKeyRef:
-                  name: github-credentials
-                  key: clientSecret
+              value: c5c00312983cb675ce09fdf88ab82f799acc2c24
             - name: DRONE_RPC_SECRET
-              valueFrom:
-                secretKeyRef:
-                  name: github-credentials
-                  key: rpcSecret
+              value: Wcm9X3YKRQTGRziTrLJWtmGlyb6cKnS2AGINkyNzGX249ChxxZ4KBzyVQbuQ
             - name: DRONE_SERVER_HOST
               value: drone.aikidodanang.org
             - name: DRONE_SERVER_PROTO
