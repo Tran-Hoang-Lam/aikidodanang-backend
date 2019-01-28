@@ -13,10 +13,9 @@ spec:
     spec:
       containers:
         - name: aikido-k8s
-          image: lamth2/aikidodanang-backend:k8s
+          image: lamth2/aikidodanang-backend:e128a9e0
           ports:
             - containerPort: 8080
-              protocol: TCP
 ---
 apiVersion: v1
 kind: Service
@@ -26,7 +25,8 @@ metadata:
   name: aikido-k8s
 spec:
   ports:
-    - port: 8080
+    - port: 80
+      targetPort: 8080
       name: web
   selector:
     k8s-app: aikido-k8s
@@ -35,6 +35,8 @@ apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
   name: aikido-k8s
+  annotations:
+    kubernetes.io/ingress.class: traefik
 spec:
   rules:
     - host: dev.aikidodanang.org

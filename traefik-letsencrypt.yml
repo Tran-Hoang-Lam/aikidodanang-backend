@@ -25,26 +25,27 @@ metadata:
 data:
   traefik.toml: |
     # traefik.toml
-    defaultEntryPoints = ["http","https"]
+    defaultEntryPoints = ["http", "https"]
+    [web]
+    address = ":8080"
+      [web.auth.basic]
+      users = ["admin:$apr1$eJLzXbaf$IOZEegT7UHYCEHTMx6NFn1"]
     [entryPoints]
       [entryPoints.http]
       address = ":80"
-      [entryPoints.http.redirect]
-      entryPoint = "https"
-      [entryPoints.http.auth.basic]
-      users = ["admin:$apr1$eJLzXbaf$IOZEegT7UHYCEHTMx6NFn1"]
-      [entryPoints.https.auth.basic]
-      users = ["admin:$apr1$eJLzXbaf$IOZEegT7UHYCEHTMx6NFn1"]
+        [entryPoints.http.redirect]
+        entryPoint = "https"
       [entryPoints.https]
       address = ":443"
-      [entryPoints.https.tls]
+        [entryPoints.https.tls]
     [acme]
     email = "lamth.25694@gmail.com"
-    storageFile = "/acme/acme.json"
+    storage = "acme.json"
     entryPoint = "https"
-    onDemand = true
     onHostRule = true
+    onDemand = false
     [acme.tlsChallenge]
+    [accessLog]
     [[acme.domains]]
     main = "aikidodanang.org"
 ---

@@ -73,7 +73,6 @@ steps:
       APPLICATION_K8S:
         from_secret: application_k8s
     commands:
-      - echo "$APPLICATION_K8S"
       - echo "$APPLICATION_K8S" >> src/main/resources/application.properties
       - chmod +x gradlew
       - ./gradlew clean build -x test
