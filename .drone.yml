@@ -67,6 +67,31 @@ steps:
     when:
       branch: [ master ]
 
+  - name: build_k8s
+    image: java:openjdk-8
+    environment:
+      APPLICATION_DEV:
+        from_secret: application_dev
+    commands:
+      - echo "$APPLICATION_K8S" >> src/main/resources/application.properties
+      - chmod +x gradlew
+      - ./gradlew clean build -x test
+    when:
+      branch: [ kubernetes ]
+
+  - name: docker_k8s
+    image: plugins/docker
+    settings:
+      repo: lamth2/aikidodanang-backend
+      tags:
+        - k8s
+      username:
+        from_secret: docker_username
+      password:
+        from_secret: docker_password
+    when:
+      branch: [ kubernetes ]
+
   - name: deploy_dev
     image: appleboy/drone-ssh
     pull: true
