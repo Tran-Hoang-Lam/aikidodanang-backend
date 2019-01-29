@@ -8,17 +8,17 @@ steps:
       APPLICATION_DEV:
         from_secret: application_dev
     commands:
+      - uname -a
       - echo "$APPLICATION_DEV" >> src/main/resources/application.properties
-      - apt install openjdk-8-jdk
-      - ./gradlew clean build -x test
     when:
       branch: [ kubernetes ]
 
   - name: build_k8s
-    image: gradle
+    image: java:openjdk-8
     commands:
-      - chmod +rw $PWD
-      - gradle clean build -x test
+      - chown drone /drone/src
+      - chmod +x gradlew
+      - ./gradlew clean build -x test
     when:
       branch: [ kubernetes ]
 
