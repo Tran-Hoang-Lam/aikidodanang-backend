@@ -3,14 +3,13 @@ name: default
 
 steps:
   - name: build_k8s
-    image: java:openjdk-8
+    image: gradle
     environment:
       APPLICATION_DEV:
         from_secret: application_dev
     commands:
       - echo "$APPLICATION_DEV" >> src/main/resources/application.properties
-      - chmod +x gradlew
-      - ./gradlew clean build -x test
+      - gradle clean build -x test
     when:
       branch: [ kubernetes ]
 
