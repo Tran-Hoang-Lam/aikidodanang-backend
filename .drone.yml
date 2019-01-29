@@ -8,7 +8,7 @@ steps:
       APPLICATION_DEV:
         from_secret: application_dev
     commands:
-      - echo "$APPLICATION_DEV" >> src/main/resources/application.properties
+    - echo "$APPLICATION_DEV" >> src/main/resources/application.properties
     when:
       branch: [ kubernetes ]
 
