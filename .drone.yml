@@ -16,7 +16,7 @@ steps:
   - name: build_k8s
     image: java:openjdk-8
     commands:
-      - chown drone /drone/src
+      - chown $whoami /drone/src
       - chmod +x gradlew
       - ./gradlew clean build -x test
     when:
