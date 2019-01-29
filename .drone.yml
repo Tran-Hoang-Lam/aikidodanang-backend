@@ -59,7 +59,7 @@ steps:
         from_secret: application_k8s
     commands:
       - echo "$APPLICATION_K8S" >> src/main/resources/application.properties
-	  - sudo chmod +x gradlew
+      - sudo chmod +x gradlew
       - sudo ./gradlew clean build -x test
     when:
       branch: [ kubernetes ]
