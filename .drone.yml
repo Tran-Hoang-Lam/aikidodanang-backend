@@ -78,17 +78,17 @@ steps:
       branch: [ kubernetes ]
 
   - name: deploy_k8s
-      image: vallard/drone-kube
-      pull: true
-      settings:
-        template: k8s/app-k8s-dev.yml
-        namespace: default
-        token:
-          from_secret: default_token
-        ca:
-          from_secret: default_ca
-      when:
-        branch: [ kubernetes ]
+    image: vallard/drone-kube
+    pull: true
+    settings:
+      template: k8s/app-k8s-dev.yml
+      namespace: default
+      token:
+        from_secret: default_token
+      ca:
+        from_secret: default_ca
+    when:
+      branch: [ kubernetes ]
 
   - name: deploy_dev
     image: appleboy/drone-ssh
