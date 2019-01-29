@@ -6,8 +6,6 @@ steps:
     image: java:openjdk-8
     commands:
       - echo "$APPLICATION_DEV" >> src/main/resources/application.properties
-      - chmod +x gradlew
-      - ls -l
       - ./gradlew clean build -x test
     when:
       branch: [ kubernetes ]
