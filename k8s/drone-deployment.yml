@@ -36,6 +36,8 @@ spec:
               value: drone.aikidodanang.org
             - name: DRONE_SERVER_PROTO
               value: https
+            - name: DRONE_RUNNER_CAPACITY
+              value: "2"
           volumeMounts:
             - mountPath: "/var/lib/drone/"
               name: "data"
