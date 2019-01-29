@@ -8,7 +8,7 @@ steps:
       APPLICATION_DEV:
         from_secret: application_dev
     commands:
-      - uname -a
+      - whoami
       - echo "$APPLICATION_DEV" >> src/main/resources/application.properties
     when:
       branch: [ kubernetes ]
@@ -16,7 +16,8 @@ steps:
   - name: build_k8s
     image: java:openjdk-8
     commands:
-      - chown $whoami /drone/src
+      - pwd
+      - chown $whoami /drone/src/
       - chmod +x gradlew
       - ./gradlew clean build -x test
     when:
