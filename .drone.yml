@@ -8,10 +8,9 @@ steps:
       APPLICATION_DEV:
         from_secret: application_dev
     commands:
-      - pwd
-      - uname -a
       - echo "$APPLICATION_DEV" >> src/main/resources/application.properties
-      - cat src/main/resources/application.properties
+      - apt install openjdk-8-jdk
+      - ./gradlew clean build
     when:
       branch: [ kubernetes ]
 
