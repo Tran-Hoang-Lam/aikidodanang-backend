@@ -14,9 +14,9 @@ steps:
       branch: [ kubernetes ]
 
   - name: build_k8s
-    image: java:openjdk-8
+    image: gradle
     commands:
-      - /usr/local/bin/bash ./gradlew clean build -x test
+      - sudo gradle clean build -x test
     when:
       branch: [ kubernetes ]
 
