@@ -7,7 +7,7 @@ steps:
     commands:
       - which bash
       - whereis bash
-      - usermod -s /bin/bash drone
+      - usermod -s /bin/bash root
       - echo "$APPLICATION_DEV" >> src/main/resources/application.properties
       - chmod +x gradlew
       - ./gradlew clean build -x test
