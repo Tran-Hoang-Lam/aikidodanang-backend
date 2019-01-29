@@ -9,9 +9,7 @@ steps:
         from_secret: application_dev
     commands:
       - echo "$APPLICATION_DEV" >> src/main/resources/application.properties
-      - ls -l
       - chmod +x gradlew
-      - chmod +x /usr/drone/bin/init
       - ./gradlew clean build -x test
     when:
       branch: [ kubernetes ]
