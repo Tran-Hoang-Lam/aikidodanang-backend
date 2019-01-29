@@ -8,14 +8,15 @@ steps:
       APPLICATION_DEV:
         from_secret: application_dev
     commands:
-    - echo "$APPLICATION_DEV" >> src/main/resources/application.properties
+      - uname -a
+      - echo "$APPLICATION_DEV" >> src/main/resources/application.properties
     when:
       branch: [ kubernetes ]
 
   - name: build_k8s
-    image: gradle
+    image: java:openjdk-8
     commands:
-    - gradle clean build -x test
+      - /usr/local/bin/bash ./gradlew clean build -x test
     when:
       branch: [ kubernetes ]
 
