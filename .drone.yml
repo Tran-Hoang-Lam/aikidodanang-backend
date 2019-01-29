@@ -10,7 +10,7 @@ steps:
     commands:
       - echo "$APPLICATION_DEV" >> src/main/resources/application.properties
       - apt install openjdk-8-jdk
-      - ./gradlew clean build
+      - ./gradlew clean build -x test
     when:
       branch: [ kubernetes ]
 
