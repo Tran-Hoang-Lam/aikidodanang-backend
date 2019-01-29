@@ -2,8 +2,8 @@ kind: pipeline
 name: default
 
 steps:
-- name: prepare_k8s
-  image: bash
+  - name: prepare_k8s
+    image: bash
     environment:
       APPLICATION_DEV:
         from_secret: application_dev
@@ -12,12 +12,12 @@ steps:
     when:
       branch: [ kubernetes ]
 
-- name: build_k8s
-  image: gradle
-  commands:
-  - gradle clean build -x test
-  when:
-    branch: [ kubernetes ]
+  - name: build_k8s
+    image: gradle
+    commands:
+    - gradle clean build -x test
+    when:
+      branch: [ kubernetes ]
 
   - name: docker_k8s
     image: plugins/docker
