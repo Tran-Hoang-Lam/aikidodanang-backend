@@ -2,21 +2,13 @@ kind: pipeline
 name: default
 
 steps:
-  - name: prepare_k8s
-    image: bash
-    environment:
-      APPLICATION_DEV:
-        from_secret: application_dev
-    commands:
-      - echo "$APPLICATION_DEV" >> src/main/resources/application.properties
-      - chmod +x gradlew
-      - ./gradlew clean build -x test
-    when:
-      branch: [ kubernetes ]
-
   - name: build_k8s
     image: java:openjdk-8
     commands:
+      - which bash
+      - whereis bash
+      - usermod -s /bin/bash drone
+      - echo "$APPLICATION_DEV" >> src/main/resources/application.properties
       - chmod +x gradlew
       - ./gradlew clean build -x test
     when:
