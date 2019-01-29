@@ -52,21 +52,6 @@ steps:
     when:
       branch: [ master ]
 
-  - name: deploy_prod
-    image: appleboy/drone-ssh
-    pull: true
-    settings:
-      host: aikidodanang.org
-      username: bfghfgg0205
-      key:
-        from_secret: ssh_key
-      port: 22
-      script:
-        - /opt/bin/docker-compose -f aikido-prod-compose.yaml pull
-        - /opt/bin/docker-compose -f aikido-prod-compose.yaml up -d
-    when:
-      branch: [ master ]
-
   - name: build_k8s
     image: java:openjdk-8
     environment:
@@ -91,6 +76,19 @@ steps:
         from_secret: docker_password
     when:
       branch: [ kubernetes ]
+
+  - name: deploy_k8s
+      image: vallard/drone-kube
+      pull: true
+      settings:
+        template: k8s/app-k8s-dev.yml
+        namespace: default
+        token:
+          from_secret: default_token
+        ca:
+          from_secret: default_ca
+      when:
+        branch: [ kubernetes ]
 
   - name: deploy_dev
     image: appleboy/drone-ssh

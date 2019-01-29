@@ -15,7 +15,7 @@ spec:
       volumes:
         - name: data
           hostPath:
-            path: /mnt/stateful_partition/drone
+            path: /mnt/stateful_partition/drone/
       containers:
         - name: drone
           image: drone/drone:1.0.0-rc.5
