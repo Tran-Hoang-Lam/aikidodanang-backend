@@ -53,13 +53,13 @@ steps:
       branch: [ master ]
 
   - name: build_k8s
-    image: java:openjdk-8
+    image: gradle
     environment:
       APPLICATION_K8S:
         from_secret: application_k8s
     commands:
       - echo "$APPLICATION_K8S" >> src/main/resources/application.properties
-      - ./gradlew clean build -x test
+      - gradle clean build -x test
     when:
       branch: [ kubernetes ]
 
