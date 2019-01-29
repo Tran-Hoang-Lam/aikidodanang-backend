@@ -16,6 +16,9 @@ spec:
         - name: data
           hostPath:
             path: /mnt/stateful_partition/drone/
+        - name: docker
+          hostPath:
+            path: /var/run/docker.sock
       containers:
         - name: drone
           image: drone/drone:1.0.0-rc.5
@@ -36,11 +39,11 @@ spec:
               value: drone.aikidodanang.org
             - name: DRONE_SERVER_PROTO
               value: https
-            - name: DRONE_RUNNER_CAPACITY
-              value: "2"
           volumeMounts:
             - mountPath: "/var/lib/drone/"
               name: "data"
+            - mountPath: "/var/run/docker.sock"
+              name: "docker"
           ports:
             - containerPort: 80
             - containerPort: 443
