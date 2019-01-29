@@ -8,15 +8,18 @@ steps:
       APPLICATION_DEV:
         from_secret: application_dev
     commands:
+      - pwd
       - uname -a
       - echo "$APPLICATION_DEV" >> src/main/resources/application.properties
+      - cat src/main/resources/application.properties
     when:
       branch: [ kubernetes ]
 
   - name: build_k8s
     image: gradle
     commands:
-      - sudo gradle clean build -x test
+      - chmod +rw $PWD
+      - gradle clean build -x test
     when:
       branch: [ kubernetes ]
 
