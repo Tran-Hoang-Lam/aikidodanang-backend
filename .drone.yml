@@ -2,65 +2,17 @@ kind: pipeline
 name: default
 
 steps:
-  - name: build_dev
+  - name: build_k8s
     image: java:openjdk-8
     environment:
       APPLICATION_DEV:
         from_secret: application_dev
     commands:
-    - echo "$APPLICATION_DEV" >> src/main/resources/application.properties
-    - chmod +x gradlew
-    - ./gradlew clean build -x test
-    when:
-      branch: [ dev ]
-
-  - name: build_prod
-    image: java:openjdk-8
-    environment:
-      APPLICATION_PROD:
-        from_secret: application_prod
-    commands:
-    - echo "$APPLICATION_PROD" >> src/main/resources/application.properties
-    - chmod +x gradlew
-    - ./gradlew clean build -x test
-    when:
-      branch: [ master ]
-
-  - name: docker_dev
-    image: plugins/docker
-    settings:
-      repo: lamth2/aikidodanang-backend
-      tags:
-        - '${DRONE_COMMIT:0:8}'
-      username:
-        from_secret: docker_username
-      password:
-        from_secret: docker_password
-    when:
-      branch: [ dev ]
-
-  - name: docker_prod
-    image: plugins/docker
-    settings:
-      repo: lamth2/aikidodanang-backend
-      tags:
-      - latest
-      username:
-        from_secret: docker_username
-      password:
-        from_secret: docker_password
-    when:
-      branch: [ master ]
-
-  - name: build_k8s
-    image: java:openjdk-8
-    environment:
-      APPLICATION_K8S:
-        from_secret: application_k8s
-    commands:
-      - echo "$APPLICATION_K8S" >> src/main/resources/application.properties
+      - echo "$APPLICATION_DEV" >> src/main/resources/application.properties
+      - ls -l
       - chmod +x gradlew
-      - gradlew clean build -x test
+      - ls -l
+      - ./gradlew clean build -x test
     when:
       branch: [ kubernetes ]
 
@@ -89,21 +41,6 @@ steps:
         from_secret: default_ca
     when:
       branch: [ kubernetes ]
-
-  - name: deploy_dev
-    image: appleboy/drone-ssh
-    pull: true
-    settings:
-      host: aikidodanang.org
-      username: bfghfgg0205
-      key:
-        from_secret: ssh_key
-      port: 22
-      script:
-        - /opt/bin/docker-compose -f aikido-dev-compose.yaml pull
-        - /opt/bin/docker-compose -f aikido-dev-compose.yaml up -d
-    when:
-      branch: [ dev ]
 
   - name: notify_fail
     image: drillster/drone-email
