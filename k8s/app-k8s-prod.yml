@@ -2,18 +2,19 @@
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
-  name: aikido-k8s
+  name: aikido-k8s-prod
+  namespace: prod
 spec:
   replicas: 1
   template:
     metadata:
       labels:
-        app: aikido-k8s
-        k8s-app: aikido-k8s
+        app: aikido-k8s-prod
+        k8s-app: aikido-k8s-prod
     spec:
       containers:
-        - name: aikido-k8s
-          image: lamth2/aikidodanang-backend:e128a9e0
+        - name: aikido-k8s-prod
+          image: lamth2/aikidodanang-backend:latest
           ports:
             - containerPort: 8080
 ---
@@ -21,28 +22,30 @@ apiVersion: v1
 kind: Service
 metadata:
   labels:
-    kubernetes.io/name: aikido-k8s
-  name: aikido-k8s
+	kubernetes.io/name: aikido-k8s-prod
+  name: aikido-k8s-prod
+  namespace: prod
 spec:
   ports:
     - port: 80
       targetPort: 8080
       name: web
   selector:
-    k8s-app: aikido-k8s
+    k8s-app: aikido-k8s-prod
 ---
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
-  name: aikido-k8s
+  name: aikido-k8s-prod
+  namespace: prod
   annotations:
     kubernetes.io/ingress.class: traefik
 spec:
   rules:
-    - host: dev.aikidodanang.org
+    - host: aikidodanang.org
       http:
         paths:
           - path: /
             backend:
-              serviceName: aikido-k8s
+              serviceName: aikido-k8s-prod
               servicePort: web
