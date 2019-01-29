@@ -9,14 +9,14 @@ steps:
         from_secret: application_dev
     commands:
       - echo "$APPLICATION_DEV" >> src/main/resources/application.properties
+      - chmod +x gradlew
+      - ./gradlew clean build -x test
     when:
       branch: [ kubernetes ]
 
   - name: build_k8s
     image: java:openjdk-8
     commands:
-      - whoami
-      - chown -R $whoami /drone/src
       - chmod +x gradlew
       - ./gradlew clean build -x test
     when:
