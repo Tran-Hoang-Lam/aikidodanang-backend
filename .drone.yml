@@ -9,8 +9,9 @@ steps:
         from_secret: application_dev
       GRADLE_USER_HOME: gradle
     commands:
-      - echo "$GRADLE_USER_HOME"
-      - gradle clean build -d -x test
+      - chmod +w gradle
+      - ls -l
+      - gradle clean build -g gradle -x test
     when:
       branch: [ kubernetes ]
 
