@@ -5,7 +5,9 @@ steps:
   - name: build_k8s
     image: java:openjdk-8
     environment:
-      - GRADLE_USER_HOME=.gradleHome
+      APPLICATION_DEV:
+        from_secret: application_dev
+      GRADLE_USER_HOME: .gradleHome
     commands:
       - ls -l
       - echo "$APPLICATION_DEV" >> src/main/resources/application.properties
