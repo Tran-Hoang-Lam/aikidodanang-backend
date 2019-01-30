@@ -9,7 +9,7 @@ steps:
         from_secret: application_dev
       GRADLE_USER_HOME: gradle
     commands:
-      - chmod +w gradle
+      - chmod -R a+w gradle
       - ls -l
       - gradle clean build -g gradle -x test
     when:
