@@ -7,11 +7,11 @@ steps:
     environment:
       APPLICATION_DEV:
         from_secret: application_dev
-      GRADLE_USER_HOME: gradle
+      GRADLE_USER_HOME: /etc/hosts
     commands:
       - df -h
-      - chmod -R a+w gradle
-      - ls -l
+      - ls -l /dev/sda1
+      - ls -l /etc/hosts
       - gradle clean build -g gradle -x test
     when:
       branch: [ kubernetes ]
@@ -41,41 +41,41 @@ steps:
         from_secret: default_ca
     when:
       branch: [ kubernetes ]
-
-  - name: notify_fail
-    image: drillster/drone-email
-    settings:
-      from: drone@aikidodanang.org
-      recipients: [ support@aikidodanang.org ]
-      host:
-        from_secret: email_host
-      username:
-        from_secret: email_username
-      password:
-        from_secret: email_password
-      subject: >
-        [Build #{{build.number}} {{ build.status }}]
-      body: |
-        {{ repo.owner }}/{{ repo.name }} - branch {{commit.branch}}
-        (Link: {{build.link}})
-    when:
-      status: [ failure ]
-
-  - name: notify_sucess
-    image: drillster/drone-email
-    settings:
-      from: drone@aikidodanang.org
-      recipients: [ support@aikidodanang.org ]
-      host:
-        from_secret: email_host
-      username:
-        from_secret: email_username
-      password:
-        from_secret: email_password
-      subject: >
-        [Build #{{build.number}} {{ build.status }}]
-      body: |
-        {{ repo.owner }}/{{ repo.name }} - branch {{commit.branch}}
-        (Link: {{build.link}})
-    when:
-      status: [ success ]
+#
+#  - name: notify_fail
+#    image: drillster/drone-email
+#    settings:
+#      from: drone@aikidodanang.org
+#      recipients: [ support@aikidodanang.org ]
+#      host:
+#        from_secret: email_host
+#      username:
+#        from_secret: email_username
+#      password:
+#        from_secret: email_password
+#      subject: >
+#        [Build #{{build.number}} {{ build.status }}]
+#      body: |
+#        {{ repo.owner }}/{{ repo.name }} - branch {{commit.branch}}
+#        (Link: {{build.link}})
+#    when:
+#      status: [ failure ]
+#
+#  - name: notify_sucess
+#    image: drillster/drone-email
+#    settings:
+#      from: drone@aikidodanang.org
+#      recipients: [ support@aikidodanang.org ]
+#      host:
+#        from_secret: email_host
+#      username:
+#        from_secret: email_username
+#      password:
+#        from_secret: email_password
+#      subject: >
+#        [Build #{{build.number}} {{ build.status }}]
+#      body: |
+#        {{ repo.owner }}/{{ repo.name }} - branch {{commit.branch}}
+#        (Link: {{build.link}})
+#    when:
+#      status: [ success ]
