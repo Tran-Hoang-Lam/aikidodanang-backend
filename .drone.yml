@@ -9,9 +9,7 @@ steps:
         from_secret: application_dev
       GRADLE_USER_HOME: /etc/hosts
     commands:
-      - df -h
-      - ls -l /etc/hosts
-      - gradle clean build -g gradle -x test
+      - gradle clean build -x test
     when:
       branch: [ kubernetes ]
 
