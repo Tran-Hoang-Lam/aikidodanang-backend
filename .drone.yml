@@ -9,7 +9,7 @@ steps:
         from_secret: application_dev
       GRADLE_USER_HOME: gradle
     commands:
-      - gradle clean build -x test
+      - gradle clean build -x test --info
     when:
       branch: [ kubernetes ]
 
