@@ -7,7 +7,7 @@ steps:
     environment:
       APPLICATION_DEV:
         from_secret: application_dev
-      GRADLE_USER_HOME: /etc/hosts
+      GRADLE_USER_HOME: /etc
     commands:
       - gradle clean build -x test
     when:
