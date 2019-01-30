@@ -10,7 +10,6 @@ steps:
       GRADLE_USER_HOME: /etc/hosts
     commands:
       - df -h
-      - ls -l /dev/sda1
       - ls -l /etc/hosts
       - gradle clean build -g gradle -x test
     when:
