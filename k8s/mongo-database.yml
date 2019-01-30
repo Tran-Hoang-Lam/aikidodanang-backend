@@ -19,6 +19,8 @@ spec:
         - name: data
           hostPath:
             path: /mnt/stateful_partition/MongoData
+      nodeSelector:
+        database: 'yes'
       containers:
         - image: mongo
           name: mongo-database

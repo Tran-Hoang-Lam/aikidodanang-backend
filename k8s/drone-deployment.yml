@@ -19,6 +19,8 @@ spec:
         - name: docker
           hostPath:
             path: /var/run/docker.sock
+      nodeSelector:
+        drone: 'yes'
       containers:
         - name: drone
           image: drone/drone:1.0.0-rc.5
