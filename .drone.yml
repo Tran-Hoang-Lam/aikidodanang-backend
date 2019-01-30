@@ -9,7 +9,7 @@ steps:
         from_secret: application_dev
     commands:
       - pwd
-      - gradle -g ${pwd}
+      - gradle -g /drone/src
       - gradle clean build -x test
     when:
       branch: [ kubernetes ]
