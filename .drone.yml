@@ -3,11 +3,12 @@ name: default
 
 steps:
   - name: build_k8s
-    image: java:openjdk-8
+    image: openjdk:8-jdk
     environment:
       APPLICATION_DEV:
         from_secret: application_dev
       GRADLE_USER_HOME: .gradleHome
+      GRADLE_OPTS: -Dorg.gradle.daemon=false
     commands:
       - ls -l
       - echo "$APPLICATION_DEV" >> src/main/resources/application.properties
