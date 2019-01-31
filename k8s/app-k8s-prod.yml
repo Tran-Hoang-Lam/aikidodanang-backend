@@ -12,6 +12,8 @@ spec:
         app: aikido-k8s-prod
         k8s-app: aikido-k8s-prod
     spec:
+      nodeSelector:
+        prod: 'yes'
       containers:
         - image: lamth2/aikidodanang-backend:latest
           name: aikido-k8s-prod
