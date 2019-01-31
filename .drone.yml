@@ -11,14 +11,14 @@ steps:
       - echo "$APPLICATION_DEV" >> src/main/resources/application.properties
       - chmod 777 -R $(pwd)
     when:
-      branch: [ kubernetes ]
+      branch: [ dev ]
 
   - name: build_k8s
     image: gradle
     commands:
       - gradle build -x test
     when:
-      branch: [ kubernetes ]
+      branch: [ dev ]
 
   - name: docker_k8s
     image: plugins/docker
@@ -31,7 +31,7 @@ steps:
       password:
         from_secret: docker_password
     when:
-      branch: [ kubernetes ]
+      branch: [ dev ]
 
   - name: deploy_k8s
     image: ethicaljobs/drone-gce-deploy
@@ -45,42 +45,83 @@ steps:
       gce_key:
         from_secret: gce_token
     when:
-      branch: [ kubernetes ]
-#
-#  - name: notify_fail
-#    image: drillster/drone-email
-#    settings:
-#      from: drone@aikidodanang.org
-#      recipients: [ support@aikidodanang.org ]
-#      host:
-#        from_secret: email_host
-#      username:
-#        from_secret: email_username
-#      password:
-#        from_secret: email_password
-#      subject: >
-#        [Build #{{build.number}} {{ build.status }}]
-#      body: |
-#        {{ repo.owner }}/{{ repo.name }} - branch {{commit.branch}}
-#        (Link: {{build.link}})
-#    when:
-#      status: [ failure ]
-#
-#  - name: notify_sucess
-#    image: drillster/drone-email
-#    settings:
-#      from: drone@aikidodanang.org
-#      recipients: [ support@aikidodanang.org ]
-#      host:
-#        from_secret: email_host
-#      username:
-#        from_secret: email_username
-#      password:
-#        from_secret: email_password
-#      subject: >
-#        [Build #{{build.number}} {{ build.status }}]
-#      body: |
-#        {{ repo.owner }}/{{ repo.name }} - branch {{commit.branch}}
-#        (Link: {{build.link}})
-#    when:
-#      status: [ success ]
+      branch: [ dev ]
+
+  - name: prepare_k8s
+    image: bash
+    environment:
+      APPLICATION_PROD:
+        from_secret: application_prod
+    commands:
+      - echo "$APPLICATION_PROD" >> src/main/resources/application.properties
+      - chmod 777 -R $(pwd)
+    when:
+      branch: [ master ]
+
+  - name: build_k8s
+    image: gradle
+    commands:
+      - gradle build -x test
+    when:
+      branch: [ master ]
+
+  - name: docker_k8s
+    image: plugins/docker
+    settings:
+      repo: lamth2/aikidodanang-backend
+      username:
+        from_secret: docker_username
+      password:
+        from_secret: docker_password
+    when:
+      branch: [ master ]
+
+  - name: deploy_k8s
+    image: ethicaljobs/drone-gce-deploy
+    pull: true
+    settings:
+      cluster: aikido-cluster
+      zone: asia-southeast1-a
+      artefacts: k8s/app-k8s-prod.yml
+      gce_key:
+        from_secret: gce_token
+    when:
+      branch: [ master ]
+
+  - name: notify_fail
+    image: drillster/drone-email
+    settings:
+      from: drone@aikidodanang.org
+      recipients: [ support@aikidodanang.org ]
+      host:
+        from_secret: email_host
+      username:
+        from_secret: email_username
+      password:
+        from_secret: email_password
+      subject: >
+        [Build #{{build.number}} {{ build.status }}]
+      body: |
+        {{ repo.owner }}/{{ repo.name }} - branch {{commit.branch}}
+        (Link: {{build.link}})
+    when:
+      status: [ failure ]
+
+  - name: notify_sucess
+    image: drillster/drone-email
+    settings:
+      from: drone@aikidodanang.org
+      recipients: [ support@aikidodanang.org ]
+      host:
+        from_secret: email_host
+      username:
+        from_secret: email_username
+      password:
+        from_secret: email_password
+      subject: >
+        [Build #{{build.number}} {{ build.status }}]
+      body: |
+        {{ repo.owner }}/{{ repo.name }} - branch {{commit.branch}}
+        (Link: {{build.link}})
+    when:
+      status: [ success ]

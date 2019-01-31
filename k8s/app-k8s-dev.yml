@@ -37,9 +37,9 @@ apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
   name: aikido-k8s-dev
+  namespace: dev
   annotations:
     kubernetes.io/ingress.class: traefik
-  namespace: dev
 spec:
   rules:
     - host: dev.lamth.info
