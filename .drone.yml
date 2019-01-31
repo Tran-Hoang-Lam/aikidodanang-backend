@@ -8,7 +8,7 @@ steps:
       APPLICATION_DEV:
         from_secret: application_dev
     commands:
-      - gradle -u root clean build -x test
+      - sudo gradle clean build -x test
     when:
       branch: [ kubernetes ]
 
