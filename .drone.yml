@@ -34,16 +34,14 @@ steps:
       branch: [ kubernetes ]
 
   - name: deploy_k8s
-    image: vallard/drone-kube
+    image: ethicaljobs/drone-gce-deploy
     pull: true
     settings:
-      template: k8s/app-k8s-dev.yml
-      token:
-        from_secret: default_token
-      ca:
-        from_secret: default_ca
-      server:
-        from_secret: master_server
+      cluster: aikido-cluster
+      zone: asia-southeast1-a
+      artefacts: k8s/app-k8s-dev.yml
+      gce_key:
+        from_secret: gce_token
     when:
       branch: [ kubernetes ]
 #
