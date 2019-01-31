@@ -2,7 +2,7 @@ kind: pipeline
 name: default
 
 steps:
-  - name: prepare_k8s
+  - name: prepare_k8s_dev
     image: bash
     environment:
       APPLICATION_DEV:
@@ -13,14 +13,14 @@ steps:
     when:
       branch: [ dev ]
 
-  - name: build_k8s
+  - name: build_k8s_dev
     image: gradle
     commands:
       - gradle build -x test
     when:
       branch: [ dev ]
 
-  - name: docker_k8s
+  - name: docker_k8s_dev
     image: plugins/docker
     settings:
       repo: lamth2/aikidodanang-backend
@@ -33,7 +33,7 @@ steps:
     when:
       branch: [ dev ]
 
-  - name: deploy_k8s
+  - name: deploy_k8s_dev
     image: ethicaljobs/drone-gce-deploy
     pull: true
     environment:
@@ -47,7 +47,7 @@ steps:
     when:
       branch: [ dev ]
 
-  - name: prepare_k8s
+  - name: prepare_k8s_prod
     image: bash
     environment:
       APPLICATION_PROD:
@@ -58,14 +58,14 @@ steps:
     when:
       branch: [ master ]
 
-  - name: build_k8s
+  - name: build_k8s_prod
     image: gradle
     commands:
       - gradle build -x test
     when:
       branch: [ master ]
 
-  - name: docker_k8s
+  - name: docker_k8s_prod
     image: plugins/docker
     settings:
       repo: lamth2/aikidodanang-backend
@@ -76,7 +76,7 @@ steps:
     when:
       branch: [ master ]
 
-  - name: deploy_k8s
+  - name: deploy_k8s_prod
     image: ethicaljobs/drone-gce-deploy
     pull: true
     settings:
