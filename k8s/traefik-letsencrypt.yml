@@ -15,7 +15,7 @@ spec:
     - port: 443
       name: https
   externalIPs:
-    - 35.247.178.216
+    - 35.187.232.0
 ---
 apiVersion: v1
 kind: ConfigMap
@@ -117,7 +117,7 @@ metadata:
   namespace: infra
 spec:
   rules:
-    - host: traefik.aikidodanang.org
+    - host: traefik.lamth.info
       http:
         paths:
           - path: /

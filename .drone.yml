@@ -7,8 +7,9 @@ steps:
     environment:
       APPLICATION_DEV:
         from_secret: application_dev
-      GRADLE_USER_HOME: /etc
     commands:
+      - echo "$GRADLE_USER_HOME"
+      - ls -l $GRADLE_USER_HOME
       - gradle clean build -x test
     when:
       branch: [ kubernetes ]

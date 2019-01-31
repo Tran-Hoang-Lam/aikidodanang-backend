@@ -19,8 +19,6 @@ spec:
         - name: docker
           hostPath:
             path: /var/run/docker.sock
-      nodeSelector:
-        drone: 'yes'
       containers:
         - name: drone
           image: drone/drone:1.0.0-rc.5
@@ -74,7 +72,7 @@ metadata:
     kubernetes.io/ingress.class: traefik
 spec:
   rules:
-    - host: drone.aikidodanang.org
+    - host: drone.lamth.info
       http:
         paths:
           - path: /

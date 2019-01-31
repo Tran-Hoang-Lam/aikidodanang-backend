@@ -47,4 +47,4 @@ spec:
     - port: 27017
       name: port
   externalIPs:
-    - 35.247.178.216
+    - 35.187.232.0
