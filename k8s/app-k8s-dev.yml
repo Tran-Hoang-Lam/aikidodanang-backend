@@ -13,8 +13,8 @@ spec:
         k8s-app: aikido-k8s-dev
     spec:
       containers:
-        - name: aikido-k8s-dev
-          image: lamth2/aikidodanang-backend:{{truncate build.sha 8}}
+        - image: lamth2/aikidodanang-backend:{{ truncate build.sha 8 }}
+          name: aikido-k8s-dev
           ports:
             - containerPort: 8080
 ---

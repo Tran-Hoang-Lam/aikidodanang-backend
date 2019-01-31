@@ -38,7 +38,7 @@ steps:
     pull: true
     settings:
       template: k8s/app-k8s-dev.yml
-      namespace: default
+      namespace: dev
       token:
         from_secret: default_token
       ca:
