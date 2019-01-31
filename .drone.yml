@@ -8,8 +8,7 @@ steps:
       APPLICATION_DEV:
         from_secret: application_dev
     commands:
-      - chmod 777 -R $(pwd)
-      - gradle clean build -x test
+      - gradle -u root clean build -x test
     when:
       branch: [ kubernetes ]
 
