@@ -2,11 +2,19 @@ kind: pipeline
 name: default
 
 steps:
-  - name: build_k8s
-    image: gradle
+  - name: prepare_k8s
+    image: bash
     environment:
       APPLICATION_DEV:
         from_secret: application_dev
+    commands:
+      - echo "$APPLICATION_DEV" >> src/main/resources/application.properties
+      - chmod 777 -R $(pwd)
+    when:
+      branch: [ kubernetes ]
+
+  - name: build_k8s
+    image: gradle
     commands:
       - gradle build -x test
     when:
