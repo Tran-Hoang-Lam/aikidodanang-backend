@@ -2,49 +2,73 @@ kind: pipeline
 name: default
 
 steps:
-  - name: build_dev
-    image: java:openjdk-8
+  - name: prepare_k8s_dev
+    image: bash
     environment:
       APPLICATION_DEV:
         from_secret: application_dev
     commands:
-    - echo "$APPLICATION_DEV" >> src/main/resources/application.properties
-    - chmod +x gradlew
-    - ./gradlew clean build -x test
+      - echo "$APPLICATION_DEV" >> src/main/resources/application.properties
+      - chmod 777 -R $(pwd)
     when:
       branch: [ dev ]
 
-  - name: build_prod
-    image: java:openjdk-8
+  - name: build_k8s_dev
+    image: gradle
+    commands:
+      - gradle build -x test
+    when:
+      branch: [ dev ]
+
+  - name: docker_k8s_dev
+    image: plugins/docker
+    settings:
+      repo: lamth2/aikidodanang-backend
+      tags:
+        - '${DRONE_COMMIT:0:8}'
+      username:
+        from_secret: docker_username
+      password:
+        from_secret: docker_password
+    when:
+      branch: [ dev ]
+
+  - name: deploy_k8s_dev
+    image: ethicaljobs/drone-gce-deploy
+    pull: true
+    environment:
+      TAG: '${DRONE_COMMIT:0:8}'
+    settings:
+      cluster: aikido-cluster
+      zone: asia-southeast1-a
+      artefacts: k8s/app-k8s-dev.yml
+      gce_key:
+        from_secret: gce_token
+    when:
+      branch: [ dev ]
+
+  - name: prepare_k8s_prod
+    image: bash
     environment:
       APPLICATION_PROD:
         from_secret: application_prod
     commands:
-    - echo "$APPLICATION_PROD" >> src/main/resources/application.properties
-    - chmod +x gradlew
-    - ./gradlew clean build -x test
+      - echo "$APPLICATION_PROD" >> src/main/resources/application.properties
+      - chmod 777 -R $(pwd)
     when:
       branch: [ master ]
 
-  - name: docker_dev
-    image: plugins/docker
-    settings:
-      repo: lamth2/aikidodanang-backend
-      tags:
-        - test
-      username:
-        from_secret: docker_username
-      password:
-        from_secret: docker_password
+  - name: build_k8s_prod
+    image: gradle
+    commands:
+      - gradle build -x test
     when:
-      branch: [ dev ]
+      branch: [ master ]
 
-  - name: docker_prod
+  - name: docker_k8s_prod
     image: plugins/docker
     settings:
       repo: lamth2/aikidodanang-backend
-      tags:
-      - latest
       username:
         from_secret: docker_username
       password:
@@ -52,35 +76,17 @@ steps:
     when:
       branch: [ master ]
 
-  - name: deploy_prod
-    image: appleboy/drone-ssh
+  - name: deploy_k8s_prod
+    image: ethicaljobs/drone-gce-deploy
     pull: true
     settings:
-      host: aikidodanang.org
-      username: bfghfgg0205
-      key:
-        from_secret: ssh_key
-      port: 22
-      script:
-        - /opt/bin/docker-compose -f aikido-prod-compose.yaml pull
-        - /opt/bin/docker-compose -f aikido-prod-compose.yaml up -d
+      cluster: aikido-cluster
+      zone: asia-southeast1-a
+      artefacts: k8s/app-k8s-prod.yml
+      gce_key:
+        from_secret: gce_token
     when:
       branch: [ master ]
-
-  - name: deploy_dev
-    image: appleboy/drone-ssh
-    pull: true
-    settings:
-      host: aikidodanang.org
-      username: bfghfgg0205
-      key:
-        from_secret: ssh_key
-      port: 22
-      script:
-        - /opt/bin/docker-compose -f aikido-dev-compose.yaml pull
-        - /opt/bin/docker-compose -f aikido-dev-compose.yaml up -d
-    when:
-      branch: [ dev ]
 
   - name: notify_fail
     image: drillster/drone-email

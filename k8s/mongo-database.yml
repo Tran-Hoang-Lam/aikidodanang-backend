@@ -1,0 +1,50 @@
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: mongo
+  namespace: database
+  labels:
+    k8s-app: mongo
+spec:
+  replicas: 1
+  revisionHistoryLimit: 0
+  template:
+    metadata:
+      labels:
+        k8s-app: mongo
+        name: mongo
+    spec:
+      volumes:
+        - name: data
+          hostPath:
+            path: /mnt/stateful_partition/MongoData
+      nodeSelector:
+        database: 'yes'
+      containers:
+        - image: mongo
+          name: mongo-database
+          imagePullPolicy: Always
+          volumeMounts:
+            - mountPath: "/data/db"
+              name: "data"
+          ports:
+            - containerPort: 27017
+              hostPort: 27017
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mongo
+  namespace: database
+  labels:
+    k8s-app: mongo
+    kubernetes.io/name: mongo
+spec:
+  selector:
+    k8s-app: mongo
+  ports:
+    - port: 27017
+      name: port
+  externalIPs:
+    - 35.187.232.0

@@ -1,0 +1,96 @@
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: drone
+  namespace: drone
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: drone
+        k8s-app: drone
+    spec:
+      volumes:
+        - name: data
+          hostPath:
+            path: /mnt/stateful_partition/drone/
+        - name: docker
+          hostPath:
+            path: /var/run/docker.sock
+      containers:
+        - name: drone
+          image: drone/drone:1.0.0-rc.5
+          env:
+            - name: DRONE_KUBERNETES_ENABLED
+              value: "true"
+            - name: DRONE_KUBERNETES_NAMESPACE
+              value: drone
+            - name: DRONE_GITHUB_SERVER
+              value: https://github.com
+            - name: DRONE_GITHUB_CLIENT_ID
+              value: feb1ebfc17ab557253da
+            - name: DRONE_GITHUB_CLIENT_SECRET
+              value: c5c00312983cb675ce09fdf88ab82f799acc2c24
+            - name: DRONE_RPC_SECRET
+              value: Wcm9X3YKRQTGRziTrLJWtmGlyb6cKnS2AGINkyNzGX249ChxxZ4KBzyVQbuQ
+            - name: DRONE_SERVER_HOST
+              value: drone.lamth.info
+            - name: DRONE_SERVER_PROTO
+              value: https
+          volumeMounts:
+            - mountPath: "/var/lib/drone/"
+              name: "data"
+            - mountPath: "/var/run/docker.sock"
+              name: "docker"
+          ports:
+            - containerPort: 80
+            - containerPort: 443
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    kubernetes.io/name: drone
+  name: drone
+  namespace: drone
+spec:
+  ports:
+    - port: 80
+      targetPort: 80
+      name: web
+  selector:
+    k8s-app: drone
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: drone
+  namespace: drone
+  annotations:
+    kubernetes.io/ingress.class: traefik
+spec:
+  rules:
+    - host: drone.lamth.info
+      http:
+        paths:
+          - path: /
+            backend:
+              serviceName: drone
+              servicePort: web
+---
+apiVersion: rbac.authorization.k8s.io/v1beta1
+kind: ClusterRoleBinding
+metadata:
+  name: drone-rbac
+subjects:
+  - kind: ServiceAccount
+    # Reference to upper's `metadata.name`
+    name: default
+    # Reference to upper's `metadata.namespace`
+    namespace: drone
+roleRef:
+  kind: ClusterRole
+  name: cluster-admin
+  apiGroup: rbac.authorization.k8s.io
