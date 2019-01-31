@@ -9,7 +9,7 @@ steps:
         from_secret: application_dev
     commands:
       - echo "$APPLICATION_DEV" >> src/main/resources/application.properties
-      - chmod +w $(pwd)
+      - chmod +w -R $(pwd)
     when:
       branch: [ kubernetes ]
 
