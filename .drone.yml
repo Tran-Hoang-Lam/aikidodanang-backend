@@ -37,7 +37,7 @@ steps:
     image: ethicaljobs/drone-gce-deploy
     pull: true
     environment:
-      DRONE_TAG: '${DRONE_COMMIT:0:8}'
+      TAG: '${DRONE_COMMIT:0:8}'
     settings:
       cluster: aikido-cluster
       zone: asia-southeast1-a
