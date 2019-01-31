@@ -36,7 +36,7 @@ spec:
             - name: DRONE_RPC_SECRET
               value: Wcm9X3YKRQTGRziTrLJWtmGlyb6cKnS2AGINkyNzGX249ChxxZ4KBzyVQbuQ
             - name: DRONE_SERVER_HOST
-              value: drone.aikidodanang.org
+              value: drone.lamth.info
             - name: DRONE_SERVER_PROTO
               value: https
           volumeMounts:
