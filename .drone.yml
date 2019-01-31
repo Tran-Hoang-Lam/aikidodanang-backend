@@ -36,6 +36,8 @@ steps:
   - name: deploy_k8s
     image: ethicaljobs/drone-gce-deploy
     pull: true
+    environment:
+      IMAGE_TAG: '${DRONE_COMMIT:0:8}'
     settings:
       cluster: aikido-cluster
       zone: asia-southeast1-a
