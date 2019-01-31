@@ -8,8 +8,7 @@ steps:
       APPLICATION_DEV:
         from_secret: application_dev
     commands:
-      - echo "$GRADLE_USER_HOME"
-      - ls -l $GRADLE_USER_HOME
+      - chmod 777 -R $GRADLE_USER_HOME
       - gradle clean build -x test
     when:
       branch: [ kubernetes ]
