@@ -12,6 +12,8 @@ spec:
         app: drone
         k8s-app: drone
     spec:
+      nodeSelector:
+        drone: 'yes'
       volumes:
         - name: data
           hostPath:
