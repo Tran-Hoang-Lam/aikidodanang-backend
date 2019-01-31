@@ -43,6 +43,8 @@ steps:
         from_secret: default_token
       ca:
         from_secret: default_ca
+      server:
+        from_secret: master_server
     when:
       branch: [ kubernetes ]
 #
