@@ -34,16 +34,15 @@ steps:
       branch: [ dev ]
 
   - name: deploy_k8s_dev
-    image: ethicaljobs/drone-gce-deploy
+    image: lamth2/drone-gke
     pull: true
-    environment:
-      TAG: '${DRONE_COMMIT:0:8}'
     settings:
       cluster: aikido-cluster
       zone: asia-southeast1-a
-      artefacts: k8s/app-k8s-dev.yml
+      template: k8s/app-k8s-dev.yml
       gce_key:
         from_secret: gce_token
+      tag: '${DRONE_COMMIT:0:8}'
     when:
       branch: [ dev ]
 
@@ -77,12 +76,12 @@ steps:
       branch: [ master ]
 
   - name: deploy_k8s_prod
-    image: ethicaljobs/drone-gce-deploy
+    image: lamth2/drone-gke
     pull: true
     settings:
       cluster: aikido-cluster
       zone: asia-southeast1-a
-      artefacts: k8s/app-k8s-prod.yml
+      template: k8s/app-k8s-prod.yml
       gce_key:
         from_secret: gce_token
     when:
