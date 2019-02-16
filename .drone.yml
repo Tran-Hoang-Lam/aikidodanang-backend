@@ -40,7 +40,7 @@ steps:
       cluster: aikido-cluster
       zone: asia-southeast1-a
       template: k8s/app-k8s-dev.yml
-      gce_key:
+      gce_token:
         from_secret: gce_token
       tag: '${DRONE_COMMIT:0:8}'
     when:
@@ -82,7 +82,7 @@ steps:
       cluster: aikido-cluster
       zone: asia-southeast1-a
       template: k8s/app-k8s-prod.yml
-      gce_key:
+      gce_token:
         from_secret: gce_token
     when:
       branch: [ master ]
