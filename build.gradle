@@ -1,6 +1,6 @@
 buildscript {
 	ext {
-		kotlinVersion = '1.2.71'
+		kotlinVersion = '1.3.61'
 		springBootVersion = '2.2.1.RELEASE'
 	}
 	repositories {
@@ -48,7 +48,7 @@ dependencies {
 	implementation('org.springframework.boot:spring-boot-starter-web'){
 		exclude(module: 'spring-boot-starter-tomcat')
 	}
-    implementation (group: 'org.springframework.boot', name: 'spring-boot-starter-jetty', version: '2.0.6.RELEASE')
+    implementation (group: 'org.springframework.boot', name: 'spring-boot-starter-jetty', version: '2.2.1.RELEASE')
 	implementation('com.fasterxml.jackson.module:jackson-module-kotlin')
     implementation (group: 'com.cloudinary', name: 'cloudinary', version:'1.0.14')
 	implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
